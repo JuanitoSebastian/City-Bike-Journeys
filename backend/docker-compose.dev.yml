@@ -1,16 +1,6 @@
 version: '3.8'
 
 services:
-  server: 
-    image: express-server
-    build:
-      dockerfile: dev.Dockerfile
-    ports:
-      - 3000:3000
-    environment:
-      - POSTGRES_URL=postgresql://example@db:5432
-    container_name: journey-back-dev
-
   db:
     image: postgres
     restart: always
