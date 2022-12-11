@@ -12,16 +12,16 @@ class Station extends Model {
   addresses!: StationAddress[];
 
   @Column
-  maxCapicity!: number;
+  maximumCapicity!: number;
 
   @Column
   operator!: string;
 
   @Column(DataType.DECIMAL(8,6))
-  lat!: number;
+  latitude!: number;
 
   @Column(DataType.DECIMAL(9,6))
-  lon!: number;
+  longitude!: number;
 
 }
 

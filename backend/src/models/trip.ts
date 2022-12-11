@@ -19,10 +19,10 @@ class Trip extends Model {
   endStationId!: number;
 
   @Column
-  distance!: number;
+  distanceMeters!: number;
 
   @Column
-  duration!: number;
+  durationSeconds!: number;
 
 }
 
