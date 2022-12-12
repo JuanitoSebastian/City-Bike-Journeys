@@ -1,9 +1,9 @@
 export interface TripData {
   startTime: string;
   endTime: string;
-  startStationId: number;
+  startStationNumber: string;
   startStationName: string;
-  endStationId: number;
+  endStationNumber: string;
   endStationName: string;
   distanceMeters: number;
   durationSeconds: number;
@@ -11,15 +11,21 @@ export interface TripData {
 
 export interface StationData {
   stationId: string;
-  nameFinnish: string;
-  nameEnglish: string;
-  nameSwedish: string;
-  addressFinnish: string;
-  addressSwedish: string;
-  cityFinnish: string;
-  citySwedish: string;
-  operator: string;
+  name: StringInLanguage[];
+  address: StringInLanguage[];
+  city: StringInLanguage[];
   maximumCapacity: number;
   latitude: number;
   longitude: number;
+}
+
+export interface StringInLanguage {
+  string: string;
+  langugage: Language;
+}
+
+export enum Language {
+  Finnish = 'fi',
+  Enlgish = "en",
+  Swedish = "sv"
 }

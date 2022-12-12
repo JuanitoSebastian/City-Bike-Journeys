@@ -1,4 +1,4 @@
-import { StationData } from "../types";
+import { StationData, StringInLanguage, Language, TripData } from "../types";
 
 export const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -55,26 +55,62 @@ export const parseUnkownArray = (unkownArray: unknown): unknown[] => {
   return unkownArray;
 };
 
-export const parseStationData = (stationData: unknown): StationData => {
-  const stationDataArray = parseUnkownArray(stationData);
-  if (stationDataArray.length !== 13) {
+export const parseStationDataFromCsv = (stationDataRaw: unknown): StationData => {
+  const rawDataArray = parseUnkownArray(stationDataRaw);
+  if (rawDataArray.length !== 13) {
     throw new Error('Incorrect type, not Station Data');
   }
 
+  const name: StringInLanguage[] = [
+    { string: parseString(rawDataArray[2]), langugage: Language.Finnish },
+    { string: parseString(rawDataArray[3]), langugage: Language.Swedish },
+    { string: parseString(rawDataArray[4]), langugage: Language.Enlgish }
+  ];
+
+  const address: StringInLanguage[] = [
+    { string: parseString(rawDataArray[5]), langugage: Language.Finnish },
+    { string: parseString(rawDataArray[6]), langugage: Language.Swedish }
+  ];
+  const parsedCityString = parseString(rawDataArray[7]);
+  const city: StringInLanguage[] = [
+    { 
+      string: parsedCityString === " " ? "Helsinki" : parseString(rawDataArray[7]), 
+      langugage: Language.Finnish 
+    },
+    { 
+      string: parsedCityString === " " ? "Helsingfors" : parseString(rawDataArray[8]), 
+      langugage: Language.Swedish 
+    }
+  ];
+
   const stationDataToReturn: StationData = {
-    stationId: parseString(stationDataArray[1]),
-    nameFinnish: parseString(stationDataArray[2]),
-    nameEnglish: parseString(stationDataArray[3]),
-    nameSwedish: parseString(stationDataArray[4]),
-    addressFinnish: parseString(stationDataArray[5]),
-    addressSwedish: parseString(stationDataArray[6]),
-    cityFinnish: parseString(stationDataArray[7]),
-    citySwedish: parseString(stationDataArray[8]),
-    operator: parseString(stationDataArray[9]),
-    maximumCapacity: Number(parseString(stationDataArray[10])),
-    latitude: Number(parseString(stationDataArray[11])),
-    longitude: Number(parseString(stationDataArray[12]))
+    stationId: parseString(rawDataArray[1]),
+    name: name,
+    address: address,
+    city: city,
+    maximumCapacity: Number(parseString(rawDataArray[10])),
+    latitude: Number(parseString(rawDataArray[11])),
+    longitude: Number(parseString(rawDataArray[12]))
   };
 
   return stationDataToReturn;
+};
+
+export const parseTripDataFormCsv = (tripData: unknown): TripData => {
+  const rawDataArray = parseUnkownArray(tripData);
+  if (rawDataArray.length !== 8) {
+    throw new Error('Incorrect type, not Station Data');
+  }
+  const tripDataToReturn: TripData = {
+    startTime: parseDate(rawDataArray[0]),
+    endTime: parseDate(rawDataArray[1]),
+    startStationNumber: parseString(rawDataArray[2]),
+    startStationName: parseString(rawDataArray[3]),
+    endStationNumber: parseString(rawDataArray[4]),
+    endStationName: parseString(rawDataArray[5]),
+    distanceMeters: Number(parseString(rawDataArray[6])),
+    durationSeconds: Number(parseString(rawDataArray[7]))
+  };
+
+  return tripDataToReturn;
 };
