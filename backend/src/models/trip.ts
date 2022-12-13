@@ -1,5 +1,5 @@
-import { Table, Column, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import StationNumber from './stationNumber';
+import { Table, Column, Model, ForeignKey, BelongsTo, DataType } from 'sequelize-typescript';
+import Station from './station';
 
 @Table({ timestamps: false })
 class Trip extends Model {
@@ -10,21 +10,21 @@ class Trip extends Model {
   @Column
   endTime!: Date;
 
-  @ForeignKey(() => StationNumber)
+  @ForeignKey(() => Station)
   @Column
-  startStationNumber!: string;
+  startStationId!: string;
 
-  @BelongsTo(() => StationNumber)
-  startStation!: StationNumber;
+  @BelongsTo(() => Station)
+  startStation!: Station;
 
-  @ForeignKey(() => StationNumber)
+  @ForeignKey(() => Station)
   @Column
-  endStationNumber!: string;
+  endStationId!: string;
 
-  @BelongsTo(() => StationNumber)
-  endStation!: StationNumber;
+  @BelongsTo(() => Station)
+  endStation!: Station;
 
-  @Column
+  @Column(DataType.FLOAT)
   distanceMeters!: number;
 
   @Column

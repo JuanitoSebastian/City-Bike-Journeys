@@ -1,9 +1,9 @@
 export interface TripData {
   startTime: string;
   endTime: string;
-  startStationNumber: string;
+  startStationId: string;
   startStationName: string;
-  endStationNumber: string;
+  endStationId: string;
   endStationName: string;
   distanceMeters: number;
   durationSeconds: number;

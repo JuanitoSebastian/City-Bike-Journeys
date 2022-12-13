@@ -1,4 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
+import Station from '../models/station';
+import Trip from '../models/trip';
 import sanitizedConfig from "./config";
 import { seedDb } from './seeder';
 
@@ -12,7 +14,11 @@ export const sequelize = new Sequelize(sanitizedConfig.POSTGRES_URI, {
 });
 
 export const initDatabase = async () => {
-  await sequelize.drop({ cascade: true });
+  // TOOD: Improve this check. How to really determine if seeding required?
+  if (await Station.count() === 0 || await Trip.count() === 0) {
+    await sequelize.drop({ cascade: true });
+    await sequelize.sync();
+    await seedDb();
+  }
   await sequelize.sync();
-  await seedDb();
 };

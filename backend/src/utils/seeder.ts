@@ -4,6 +4,7 @@ import { createReadStream } from 'fs';
 
 import { StringInLanguage, StationData, TripData } from '../types';
 import { parseStationDataFromCsv, parseTripDataFormCsv } from './validation';
+import * as constants from './constants';
 
 import City from '../models/city';
 import CityName from '../models/cityName';
@@ -11,7 +12,8 @@ import Station from '../models/station';
 import StationName from '../models/stationName';
 import StationAddress from '../models/stationAddress';
 import Trip from '../models/trip';
-import StationNumber from '../models/stationNumber';
+
+const stationIds: string[] = [];
 
 /**
  * Reads a given .csv file and returns the contents in an array.
@@ -77,16 +79,14 @@ const findOrCreateCity = async (cityNames: StringInLanguage[]): Promise<City> =>
  */
 const createStation = async (stationData: StationData, city: City): Promise<Station> => {
   const station = await Station.create({
+    id: stationData.stationId,
     maximumCapacity: stationData.maximumCapacity,
     cityId: city.id,
     latitude: stationData.latitude,
     longitude: stationData.longitude
   });
 
-  await StationNumber.create({
-    stationNumber: stationData.stationId,
-    stationId: station.id
-  });
+  stationIds.push(station.id);
 
   await StationName.bulkCreate(stationData.name.map((name) => {
     return { name: name.string, language: name.langugage, stationId: station.id };
@@ -99,25 +99,62 @@ const createStation = async (stationData: StationData, city: City): Promise<Stat
 };
 
 /**
- * Creates a Station object and saves it in the database.
- * @param stationData StationData used to create the Station
- * @param city City object to associate the station with
- * @returns Station object
+ * Reads Trips from a .csv file and inserts to database
+ * @param filename Path to .csv file
  */
 export const addTrips = async (filename: string) => {
   const tripsDataRaw = await readCsvFile(filename);
-  const tripsData: TripData[] = tripsDataRaw.map(rawData => parseTripDataFormCsv(rawData));
-  console.log(`done, count: ${tripsData.length}`);
-  await Trip.bulkCreate(tripsData.map((tripData) => {
-    return { 
-      startTime: tripData.startTime, 
-      endTime: tripData.endTime,
-      startStationNumber: tripData.startStationNumber,
-      endStationNumber: tripData.endStationNumber,
-      distanceMeters: tripData.distanceMeters,
-      durationSeconds: tripData.durationSeconds
-    };
-  }));
+  // TODO: Maybe refactor this to clearer code?
+  const tripsData: TripData[] = tripsDataRaw
+  .flatMap((rawData) => {
+    try {
+      return parseTripDataFormCsv(rawData);
+    } catch(error) {
+      return [];
+    }    
+  })
+  .filter(tripData => validateTrip(tripData));
+  console.log(`Parsed ${tripsData.length} trips from .csv, inserting to db...`);
+  try {
+    await Trip.bulkCreate(tripsData.map((tripData) => {
+      return {
+        startTime: tripData.startTime, 
+        endTime: tripData.endTime,
+        startStationId: tripData.startStationId,
+        endStationId: tripData.endStationId,
+        distanceMeters: tripData.distanceMeters,
+        durationSeconds: tripData.durationSeconds
+      };
+    }));
+  } catch(error) {
+    console.log(error);
+  }
+  console.log('Insertion to db done');
+};
+
+/**
+ * Checks the validity of a TripData obejct.
+ * Valid TripData:
+ * - Duration minimum 10 seconds
+ * - Covered distance minimum 10 meters
+ * - Valid 3 character StataionIds
+ * @param trip TripData object to return
+ * @returns true / false
+ */
+const validateTrip = (trip: TripData): boolean => {
+  if (trip.startStationId.length < 3 || trip.endStationId.length < 3) {
+    return false;
+  }
+
+  if (trip.distanceMeters < constants.MIN_TRIP_LENGTH_METERS || trip.durationSeconds < constants.MIN_TRIP_DURATION_SECONDS) {
+    return false;
+  }
+
+  if (!stationIds.includes(trip.startStationId) || !stationIds.includes(trip.endStationId)) {
+    return false;
+  }
+
+  return true;
 };
 
 /**
@@ -130,4 +167,6 @@ export const addTrips = async (filename: string) => {
 export const seedDb = async () => {
   await addStations(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
   await addTrips(path.join(__dirname, '..', '..', 'data', '2021-05.csv'));
+  await addTrips(path.join(__dirname, '..', '..', 'data', '2021-06.csv'));
+  await addTrips(path.join(__dirname, '..', '..', 'data', '2021-07.csv'));
 };

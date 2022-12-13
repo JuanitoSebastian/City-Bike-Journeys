@@ -1,4 +1,4 @@
-import { Table, Column, Model, ForeignKey, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, PrimaryKey, AutoIncrement, BelongsTo } from 'sequelize-typescript';
 import Station from './station';
 
 @Table({ timestamps: false })
@@ -10,7 +10,10 @@ class StationName extends Model {
   id!: number;
 
   @ForeignKey(() => Station)
-  stationId!: number;
+  stationId!: string;
+
+  @BelongsTo(() => Station)
+  station!: Station;
 
   @Column
   name!: string;
