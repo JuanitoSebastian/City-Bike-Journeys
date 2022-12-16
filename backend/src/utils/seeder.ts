@@ -13,8 +13,6 @@ import StationName from '../models/stationName';
 import StationAddress from '../models/stationAddress';
 import Trip from '../models/trip';
 
-const stationIds: string[] = [];
-
 /**
  * Reads a given .csv file and returns the contents in an array.
  * @param filename Path to .csv file
@@ -34,14 +32,16 @@ const readCsvFile = async (filename: string): Promise<unknown[]> => {
  * Reads Stations from a .csv file and inserts to database
  * @param filename Path to .csv file
  */
-const addStations = async (filename: string) => {
-  const stationDataRaw = await readCsvFile(filename);
-  const stationDataSanitized: StationData[] = stationDataRaw.map(stationRaw => parseStationDataFromCsv(stationRaw));
+const addStations = async (stationsDataRawRaw: unknown[], addedStationIds: string[] = []) => {
+  const stationDataSanitized: StationData[] = stationsDataRawRaw.map(stationRaw => parseStationDataFromCsv(stationRaw));
 
   for (const stationData of stationDataSanitized) {
     const city = await findOrCreateCity(stationData.city);
-    await createStation(stationData, city);
+    const station = await createStation(stationData, city);
+    addedStationIds.push(station.id);
   }
+
+  return addedStationIds;
 };
 
 /**
@@ -86,8 +86,6 @@ const createStation = async (stationData: StationData, city: City): Promise<Stat
     longitude: stationData.longitude
   });
 
-  stationIds.push(station.id);
-
   await StationName.bulkCreate(stationData.name.map((name) => {
     return { name: name.string, language: name.langugage, stationId: station.id };
   }));
@@ -102,23 +100,23 @@ const createStation = async (stationData: StationData, city: City): Promise<Stat
  * Reads Trips from a .csv file and inserts to database
  * @param filename Path to .csv file
  */
-export const addTrips = async (filename: string) => {
-  const tripsDataRaw = await readCsvFile(filename);
+export const addTrips = async (tripsDataRaw: unknown[], addedStationIds: string[]) => {
   // TODO: Maybe refactor this to clearer code?
   const tripsData: TripData[] = tripsDataRaw
-  .flatMap((rawData) => {
-    try {
-      return parseTripDataFormCsv(rawData);
-    } catch(error) {
-      return [];
-    }    
-  })
-  .filter(tripData => validateTrip(tripData));
+    .flatMap((rawData) => {
+      try {
+        return parseTripDataFormCsv(rawData);
+      } catch (error) {
+        return [];
+      }
+    })
+    .filter(tripData => validateTrip(tripData, addedStationIds));
   console.log(`Parsed ${tripsData.length} trips from .csv, inserting to db...`);
+
   try {
     await Trip.bulkCreate(tripsData.map((tripData) => {
       return {
-        startTime: tripData.startTime, 
+        startTime: tripData.startTime,
         endTime: tripData.endTime,
         startStationId: tripData.startStationId,
         endStationId: tripData.endStationId,
@@ -126,7 +124,7 @@ export const addTrips = async (filename: string) => {
         durationSeconds: tripData.durationSeconds
       };
     }));
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
   console.log('Insertion to db done');
@@ -138,10 +136,12 @@ export const addTrips = async (filename: string) => {
  * - Duration minimum 10 seconds
  * - Covered distance minimum 10 meters
  * - Valid 3 character StataionIds
- * @param trip TripData object to return
+ * - Trip starts and ends at a valid bike station
+ * @param trip TripData object to validate
+ * @param addedStationsIds A list of valid stationIds
  * @returns true / false
  */
-const validateTrip = (trip: TripData): boolean => {
+const validateTrip = (trip: TripData, addedStationIds: string[]): boolean => {
   if (trip.startStationId.length < 3 || trip.endStationId.length < 3) {
     return false;
   }
@@ -150,7 +150,7 @@ const validateTrip = (trip: TripData): boolean => {
     return false;
   }
 
-  if (!stationIds.includes(trip.startStationId) || !stationIds.includes(trip.endStationId)) {
+  if (!addedStationIds.includes(trip.startStationId) || !addedStationIds.includes(trip.endStationId)) {
     return false;
   }
 
@@ -165,8 +165,17 @@ const validateTrip = (trip: TripData): boolean => {
  * - /data/2021-07.csv
  */
 export const seedDb = async () => {
-  await addStations(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
-  await addTrips(path.join(__dirname, '..', '..', 'data', '2021-05.csv'));
-  await addTrips(path.join(__dirname, '..', '..', 'data', '2021-06.csv'));
-  await addTrips(path.join(__dirname, '..', '..', 'data', '2021-07.csv'));
+  const stationsDataRaw = await readCsvFile(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
+  const addedStationIds = await addStations(stationsDataRaw);
+
+  const tripsPaths = [
+    path.join(__dirname, '..', '..', 'data', '2021-05.csv'),
+    path.join(__dirname, '..', '..', 'data', '2021-06.csv'),
+    path.join(__dirname, '..', '..', 'data', '2021-07.csv')
+  ];
+
+  for (const pathToTrips of tripsPaths) {
+    const rawTripsData = await readCsvFile(pathToTrips);
+    await addTrips(rawTripsData, addedStationIds);
+  }
 };
