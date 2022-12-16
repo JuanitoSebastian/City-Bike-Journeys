@@ -1,5 +1,57 @@
-import { validateTrip } from '../utils/validation';
+import { validateTrip, parseTripDataFormCsv } from '../utils/validation';
 import { TripData } from '../types';
+
+describe('CSV parsing', () => {
+
+  describe('TripData', () => {
+
+    test('Length non valid throws', () => {
+      const shortTripData: unknown[] = [
+        '2021-05-31T23:57:25',
+        '2021-06-01T00:05:46',
+        '094',
+        'Laajalahden aukio'
+      ];
+
+      const longTripData: unknown[] = [
+        '2021-05-31T23:56:11',
+        '2021-06-01T00:02:02',
+        '004',
+        'Viiskulma',
+        '065',
+        'Hernesaarenranta',
+        '1400',
+        '350',
+        '2021-05-31T23:54:48'
+      ];
+
+      expect(() => { parseTripDataFormCsv(shortTripData); }).toThrow(Error);
+      expect(() => { parseTripDataFormCsv(longTripData); }).toThrow(Error);
+    });
+
+    test('Valid data returns corresponding TripData obejct', () => {
+      const rawTripData: unknown[] = [
+        '2021-05-31T23:56:11',
+        '2021-06-01T00:02:02',
+        '004',
+        'Viiskulma',
+        '065',
+        'Hernesaarenranta',
+        '1400',
+        '350'
+      ];
+
+      const tripDataObject = parseTripDataFormCsv(rawTripData);
+      expect(tripDataObject.startTime.toString()).toEqual(rawTripData[0]);
+      expect(tripDataObject.endTime.toString()).toEqual(rawTripData[1]);
+      expect(tripDataObject.startStationId.toString()).toEqual(rawTripData[2]);
+      expect(tripDataObject.endStationId.toString()).toEqual(rawTripData[4]);
+      expect(tripDataObject.distanceMeters).toEqual(1400);
+      expect(tripDataObject.durationSeconds).toEqual(350);
+    });
+    
+  });
+});
 
 describe('Trip validation', () => {
 
