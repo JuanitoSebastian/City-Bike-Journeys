@@ -2,9 +2,7 @@ export interface TripData {
   startTime: string;
   endTime: string;
   startStationId: string;
-  startStationName: string;
   endStationId: string;
-  endStationName: string;
   distanceMeters: number;
   durationSeconds: number;
 }

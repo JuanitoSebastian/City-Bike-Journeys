@@ -105,9 +105,7 @@ export const parseTripDataFormCsv = (tripData: unknown): TripData => {
     startTime: parseDate(rawDataArray[0]),
     endTime: parseDate(rawDataArray[1]),
     startStationId: parseString(rawDataArray[2]),
-    startStationName: parseString(rawDataArray[3]),
     endStationId: parseString(rawDataArray[4]),
-    endStationName: parseString(rawDataArray[5]),
     distanceMeters: Number(parseString(rawDataArray[6])),
     durationSeconds: Number(parseString(rawDataArray[7]))
   };

@@ -179,3 +179,7 @@ export const seedDb = async () => {
     await addTrips(rawTripsData, addedStationIds);
   }
 };
+
+export const exportedFortesting = {
+  validateTrip
+};
