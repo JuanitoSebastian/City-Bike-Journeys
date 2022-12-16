@@ -3,8 +3,7 @@ import { parse } from 'csv-parse';
 import { createReadStream } from 'fs';
 
 import { StringInLanguage, StationData, TripData } from '../types';
-import { parseStationDataFromCsv, parseTripDataFormCsv } from './validation';
-import * as constants from './constants';
+import { parseStationDataFromCsv, parseTripDataFormCsv, validateTrip } from './validation';
 
 import City from '../models/city';
 import CityName from '../models/cityName';
@@ -131,33 +130,6 @@ export const addTrips = async (tripsDataRaw: unknown[], addedStationIds: string[
 };
 
 /**
- * Checks the validity of a TripData obejct.
- * Valid TripData:
- * - Duration minimum 10 seconds
- * - Covered distance minimum 10 meters
- * - Valid 3 character StataionIds
- * - Trip starts and ends at a valid bike station
- * @param trip TripData object to validate
- * @param addedStationsIds A list of valid stationIds
- * @returns true / false
- */
-const validateTrip = (trip: TripData, addedStationIds: string[]): boolean => {
-  if (trip.startStationId.length < 3 || trip.endStationId.length < 3) {
-    return false;
-  }
-
-  if (trip.distanceMeters < constants.MIN_TRIP_LENGTH_METERS || trip.durationSeconds < constants.MIN_TRIP_DURATION_SECONDS) {
-    return false;
-  }
-
-  if (!addedStationIds.includes(trip.startStationId) || !addedStationIds.includes(trip.endStationId)) {
-    return false;
-  }
-
-  return true;
-};
-
-/**
  * Seeds the database with data from .csv files. Files used:
  * - /data/stations.csv
  * - /data/2021-05.csv
@@ -178,8 +150,4 @@ export const seedDb = async () => {
     const rawTripsData = await readCsvFile(pathToTrips);
     await addTrips(rawTripsData, addedStationIds);
   }
-};
-
-export const exportedFortesting = {
-  validateTrip
 };

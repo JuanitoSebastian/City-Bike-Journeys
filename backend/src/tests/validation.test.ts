@@ -1,4 +1,4 @@
-import { exportedFortesting as seeder } from '../utils/seeder';
+import { validateTrip } from '../utils/validation';
 import { TripData } from '../types';
 
 describe('Trip validation', () => {
@@ -15,7 +15,7 @@ describe('Trip validation', () => {
       durationSeconds: 30
     };
 
-    expect(seeder.validateTrip(distanceTooShort, stationIds)).toBeFalsy();
+    expect(validateTrip(distanceTooShort, stationIds)).toBeFalsy();
   });
 
   test('Duration less than 10 returns false', () => {
@@ -28,7 +28,7 @@ describe('Trip validation', () => {
       durationSeconds: 4
     };
     
-    expect(seeder.validateTrip(durationTooShort, stationIds)).toBeFalsy();
+    expect(validateTrip(durationTooShort, stationIds)).toBeFalsy();
   });
 
   test('Foreign station id returns false', () => {
@@ -50,8 +50,8 @@ describe('Trip validation', () => {
       durationSeconds: 412
     };
 
-    expect(seeder.validateTrip(foreigStartStationId, stationIds)).toBeFalsy();
-    expect(seeder.validateTrip(foreigEndStationId, stationIds)).toBeFalsy();
+    expect(validateTrip(foreigStartStationId, stationIds)).toBeFalsy();
+    expect(validateTrip(foreigEndStationId, stationIds)).toBeFalsy();
   });
 
   test('Valid TripData returns true', () => {
@@ -64,6 +64,6 @@ describe('Trip validation', () => {
       durationSeconds: 10
     };
 
-    expect(seeder.validateTrip(validTrip, stationIds)).toBeTruthy();
+    expect(validateTrip(validTrip, stationIds)).toBeTruthy();
   });
 });
