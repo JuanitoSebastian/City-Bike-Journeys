@@ -2,6 +2,7 @@ import { Table, Column, Model, DataType, HasMany, ForeignKey, BelongsTo, Primary
 import StationAddress from './stationAddress';
 import StationName from './stationName';
 import City from './city';
+import Trip from './trip';
 
 @Table({ timestamps: false })
 class Station extends Model {
@@ -31,6 +32,12 @@ class Station extends Model {
 
   @HasMany(() => StationAddress)
   addresses!: StationAddress[];
+
+  @HasMany(() => Trip, 'startStationId')
+  departures!: Trip[];
+
+  @HasMany(() => Trip, 'endStationId')
+  arrivals!: Trip[];
 
 }
 
