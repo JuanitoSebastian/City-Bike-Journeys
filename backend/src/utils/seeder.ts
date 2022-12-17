@@ -104,7 +104,7 @@ const createStation = async (stationData: StationData, city: City): Promise<Stat
  * @param tripsDataRaw Raw trip data parsed by csv-parse
  * @param validStationIds A list of valid station ids
  */
-export const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
+const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
   // TODO: Maybe refactor this to clearer code?
   const tripsData: TripData[] = tripsDataRaw
     .flatMap((rawData) => {
@@ -155,4 +155,9 @@ export const seedDb = async () => {
     const rawTripsData = await readCsvFile(pathToTrips);
     await addTrips(rawTripsData, addedStationIds);
   }
+};
+
+export const exportForTesting = {
+  addStations,
+  addTrips
 };
