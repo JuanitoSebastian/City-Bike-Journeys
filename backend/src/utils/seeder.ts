@@ -11,6 +11,7 @@ import Station from '../models/station';
 import StationName from '../models/stationName';
 import StationAddress from '../models/stationAddress';
 import Trip from '../models/trip';
+import { Op } from 'sequelize';
 
 /**
  * Reads a given .csv file and returns the contents in an array.
@@ -28,11 +29,13 @@ const readCsvFile = async (filename: string): Promise<unknown[]> => {
 };
 
 /**
- * Reads Stations from a .csv file and inserts to database
- * @param filename Path to .csv file
+ * Validates and adds station data from an unkown[].
+ * @param stationsDataRaw Raw station data parsed by csv-parse
+ * @returns The station ids that were added to the db (promise)
  */
-const addStations = async (stationsDataRawRaw: unknown[], addedStationIds: string[] = []) => {
-  const stationDataSanitized: StationData[] = stationsDataRawRaw.map(stationRaw => parseStationDataFromCsv(stationRaw));
+const addStations = async (stationsDataRaw: unknown[]): Promise<string[]> => {
+  const addedStationIds: string[] = [];
+  const stationDataSanitized: StationData[] = stationsDataRaw.map(stationRaw => parseStationDataFromCsv(stationRaw));
 
   for (const stationData of stationDataSanitized) {
     const city = await findOrCreateCity(stationData.city);
@@ -46,35 +49,38 @@ const addStations = async (stationsDataRawRaw: unknown[], addedStationIds: strin
 /**
  * Finds a city with a given name. If city does not exist, it is created.
  * @param cityNames StringLanguage[] used to find the city object
- * @returns City object
+ * @returns City object (promise)
  */
 const findOrCreateCity = async (cityNames: StringInLanguage[]): Promise<City> => {
-  const cityName = await CityName.findOne({ where: { cityName: cityNames[0].string } });
+  const cityFromDb = await City.findOne({ 
+    include: { 
+      model: CityName, 
+      where: {
+        cityName: {
+          [Op.eq]: cityNames[0].string
+        }
+      }
+    }
+  });
 
-  if (cityName !== null) {
-    const city = await City.findByPk(cityName.cityId);
-    if (city === null) throw new Error('Failed to fetch city');
-    return city;
+  if (cityFromDb !== null) {
+    return cityFromDb;
   }
 
-  const city = await City.create();
+  const newCity = await City.create({
+    names: cityNames.map((cityNameData) => { return { cityName: cityNameData.string, language: cityNameData.langugage }; })
+  }, { 
+    include: [CityName] 
+  });
 
-  for (const name of cityNames) {
-    await CityName.create({
-      cityName: name.string,
-      language: name.langugage,
-      cityId: city.id
-    });
-  }
-
-  return city;
+  return newCity;
 };
 
 /**
  * Creates a Station object and saves it in the database.
  * @param stationData StationData used to create the Station
  * @param city City object to associate the station with
- * @returns Station object
+ * @returns Station object (promise)
  */
 const createStation = async (stationData: StationData, city: City): Promise<Station> => {
   const station = await Station.create({
@@ -82,24 +88,23 @@ const createStation = async (stationData: StationData, city: City): Promise<Stat
     maximumCapacity: stationData.maximumCapacity,
     cityId: city.id,
     latitude: stationData.latitude,
-    longitude: stationData.longitude
+    longitude: stationData.longitude,
+    names: stationData.name.map((name) => { return { name: name.string, language: name.langugage }; }),
+    addresses: stationData.address.map((address) => { return { address: address.string, language: address.langugage }; })
+  }, {
+    include: [StationName, StationAddress]
   });
-
-  await StationName.bulkCreate(stationData.name.map((name) => {
-    return { name: name.string, language: name.langugage, stationId: station.id };
-  }));
-  await StationAddress.bulkCreate(stationData.address.map((address) => {
-    return { address: address.string, language: address.langugage, stationId: station.id };
-  }));
 
   return station;
 };
 
 /**
- * Reads Trips from a .csv file and inserts to database
- * @param filename Path to .csv file
+ * Validates and adds trip data from an unkown[]. A list of valid station ids
+ * must be provided. A valid trip must start from a valid bike station
+ * @param tripsDataRaw Raw trip data parsed by csv-parse
+ * @param validStationIds A list of valid station ids
  */
-export const addTrips = async (tripsDataRaw: unknown[], addedStationIds: string[]) => {
+export const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
   // TODO: Maybe refactor this to clearer code?
   const tripsData: TripData[] = tripsDataRaw
     .flatMap((rawData) => {
@@ -109,7 +114,7 @@ export const addTrips = async (tripsDataRaw: unknown[], addedStationIds: string[
         return [];
       }
     })
-    .filter(tripData => validateTrip(tripData, addedStationIds));
+    .filter(tripData => validateTrip(tripData, validStationIds));
   console.log(`Parsed ${tripsData.length} trips from .csv, inserting to db...`);
 
   try {
