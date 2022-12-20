@@ -24,6 +24,6 @@ export interface StringInLanguage {
 
 export enum Language {
   Finnish = 'fi',
-  Enlgish = "en",
+  English = "en",
   Swedish = "sv"
 }
