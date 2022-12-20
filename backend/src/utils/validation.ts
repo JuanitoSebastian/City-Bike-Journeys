@@ -1,4 +1,6 @@
-import { StationData, StringInLanguage, Language, TripData } from "../types";
+import StationData from "../interfaces/StationData";
+import StringInLanguage, { Language } from "../interfaces/StringInLanguage";
+import TripData from "../interfaces/TripData";
 import * as constants from './constants';
 
 export const isString = (text: unknown): text is string => {

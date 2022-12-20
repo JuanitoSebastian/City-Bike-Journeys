@@ -3,7 +3,7 @@ import { RequestHandler, Request, Response } from 'express';
 import { Sequelize } from 'sequelize-typescript';
 
 import { DEFAULT_QUERY_LIMIT } from '../utils/constants';
-import { Language } from '../types';
+import { Language } from '../interfaces/StringInLanguage';
 import City from '../models/city';
 import CityName from '../models/cityName';
 import Station from '../models/station';

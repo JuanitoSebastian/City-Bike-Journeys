@@ -2,7 +2,9 @@ import path from 'path';
 import { parse } from 'csv-parse';
 import { createReadStream } from 'fs';
 
-import { StringInLanguage, StationData, TripData } from '../types';
+import TripData from '../interfaces/TripData';
+import StringInLanguage from '../interfaces/StringInLanguage';
+import StationData from '../interfaces/StationData';
 import { parseStationDataFromCsv, parseTripDataFormCsv, validateTrip } from './validation';
 
 import City from '../models/city';

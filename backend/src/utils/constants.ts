@@ -1,4 +1,4 @@
-import { Language } from "../types";
+import { Language } from "../interfaces/StringInLanguage";
 
 export const MIN_TRIP_LENGTH_METERS = 10;
 export const MIN_TRIP_DURATION_SECONDS = 10;
