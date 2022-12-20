@@ -1,6 +1,7 @@
 import { Request } from "express";
 
 import ListRequest, { Order, SortBy } from "../interfaces/ListRequest";
+import StationRequest from "../interfaces/StationRequest";
 import { Language } from "../interfaces/StringInLanguage";
 import { DEFAULT_LANGUAGE, DEFAULT_QUERY_LIMIT } from "../utils/constants";
 
@@ -26,6 +27,14 @@ export const validateListRequest = (request: Request): ListRequest => {
   };
 
   return listRequest;
+};
+
+export const validateStationRequest = (request: Request): StationRequest => {
+  const stationRequest: StationRequest = {
+    id: request.params.id,
+    language: enumFromStringValue(Language, request.query.language?.toString()) || DEFAULT_LANGUAGE 
+  };
+  return stationRequest;
 };
 
 /**
