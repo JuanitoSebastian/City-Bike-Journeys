@@ -4,8 +4,18 @@ interface ListRequest {
   limit: number;
   offset: number;
   language: Language;
-  sortBy: string;
-  order: string;
+  sortBy: SortBy;
+  order: Order;
+}
+
+export enum Order {
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
+
+export enum SortBy {
+  Id = 'id',
+  Name = 'name'
 }
 
 export default ListRequest;
