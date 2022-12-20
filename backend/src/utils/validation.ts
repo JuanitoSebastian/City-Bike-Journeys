@@ -76,7 +76,7 @@ export const parseStationDataFromCsv = (stationDataRaw: unknown): StationData =>
   const name: StringInLanguage[] = [
     { string: parseString(rawDataArray[2]), langugage: Language.Finnish },
     { string: parseString(rawDataArray[3]), langugage: Language.Swedish },
-    { string: parseString(rawDataArray[4]), langugage: Language.Enlgish }
+    { string: parseString(rawDataArray[4]), langugage: Language.English }
   ];
 
   const address: StringInLanguage[] = [
