@@ -5,7 +5,7 @@ import { createReadStream } from 'fs';
 import TripData from '../interfaces/TripData';
 import StringInLanguage from '../interfaces/StringInLanguage';
 import StationData from '../interfaces/StationData';
-import { parseStationDataFromCsv, parseTripDataFormCsv, validateTrip } from './validation';
+import { parseStationDataFromCsv, parseTripDataFormCsv, validateTrip } from '../validation/csvData';
 
 import City from '../models/city';
 import CityName from '../models/cityName';
