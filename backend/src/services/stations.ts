@@ -55,7 +55,13 @@ const getSingle = async (stationRequest: StationRequest): Promise<Station | null
       [Sequelize.col('city.names.cityName'), 'city'],
       'maximumCapacity',
       'latitude',
+<<<<<<< HEAD
       'longitude'
+=======
+      'longitude',
+      [Sequelize.literal('(SELECT COUNT(*) FROM "Trips" WHERE "Trips"."endStationId" = "Station"."id")'), 'arrivals'],
+      [Sequelize.literal('(SELECT COUNT(*) FROM "Trips" WHERE "Trips"."startStationId" = "Station"."id")'), 'departures']
+>>>>>>> 918a7bed3917975c938691bc7504ea91281f0b0e
     ],
     include: [
       { model: City, include: [{ model: CityName, attributes: [], where: { language: languageCity } }] },
