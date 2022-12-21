@@ -3,7 +3,7 @@
 ## Stations
 ### Fetch all stations
 ```
-GET /api/stations?limit={{limit}}&offset={{offset}}&language={{language}}
+GET /api/stations?limit={{limit}}&offset={{offset}}&language={{language}}&order_by={{order_by}}&order={{order}}
 ```
 | Parameter | Type   | Required? | Default | Description                                                          |
 |-----------|--------|-----------|---------|----------------------------------------------------------------------|
@@ -46,7 +46,7 @@ GET /api/stations/{{id}}?language={{language}}
 ```
 | Parameter | Type   | Required? | Default | Description                                                          |
 |-----------|--------|-----------|---------|----------------------------------------------------------------------|
-| id        | number | yes       | -       | Id of station to fetch.                                              |
+| id        | string | yes       | -       | Id of station to fetch.                                              |
 | language  | enum   | no        | en      | Language for name, address and station city. Supports fi, en and sv. |
 
 **Example response**
@@ -63,3 +63,13 @@ GET /api/stations/{{id}}?language={{language}}
     }
 }
 ```
+
+### Fetch station statistics
+```
+GET /api/stations/{{id}}/statistics?start_date={{start_date}}&end_date={{end_date}}
+```
+| Parameter  | Type   | Required? | Default | Description                             |
+|------------|--------|-----------|---------|-----------------------------------------|
+| id         | string | yes       | -       | Id of station to fetch statistics from. |
+| start_date | date   | no        | -       | Filter by date, start of range.         |
+| end_date   | date   | no        | -       | Filter by date, end of range.           |
