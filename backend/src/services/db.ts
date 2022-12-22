@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
-import sanitizedConfig from "./config";
-import { seedDb } from './seeder';
+import sanitizedConfig from "../utils/config";
+import { seedDb } from '../utils/seeder';
 import Station from '../models/station';
 import Trip from '../models/trip';
 

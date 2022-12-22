@@ -1,4 +1,4 @@
-import { sequelize } from '../utils/db';
+import { sequelize } from '../services/db';
 import Station from '../models/station';
 import Trip from '../models/trip';
 import { exportForTesting as seeder } from '../utils/seeder';

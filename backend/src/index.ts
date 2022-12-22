@@ -3,7 +3,7 @@ import middleware from './utils/middleware';
 const app = express();
 
 import sanitizedConfig from './utils/config';
-import { initDatabase } from './utils/db';
+import { initDatabase } from './services/db';
 import tripsRouter from './controllers/trips';
 import stationsRouter from './controllers/stations';
 
