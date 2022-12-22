@@ -3,7 +3,7 @@
 ## Stations
 ### Fetch all stations
 ```
-GET /api/stations?limit={{limit}}&offset={{offset}}&language={{language}}&order_by={{order_by}}&order={{order}}
+GET /api/station?limit={{limit}}&offset={{offset}}&language={{language}}&order_by={{order_by}}&order={{order}}
 ```
 | Parameter | Type   | Required? | Default | Description                                                                                    |
 |-----------|--------|-----------|---------|------------------------------------------------------------------------------------------------|
@@ -42,7 +42,7 @@ GET /api/stations?limit={{limit}}&offset={{offset}}&language={{language}}&order_
 
 ### Fetch single station
 ```
-GET /api/stations/{{id}}?language={{language}}
+GET /api/station/{{id}}?language={{language}}
 ```
 | Parameter | Type   | Required? | Default | Description                                                                                    |
 |-----------|--------|-----------|---------|------------------------------------------------------------------------------------------------|
@@ -66,7 +66,7 @@ GET /api/stations/{{id}}?language={{language}}
 
 ### Fetch station statistics
 ```
-GET /api/stations/{{id}}/statistics?start_date={{start_date}}&end_date={{end_date}}
+GET /api/station/{{id}}/statistics?start_date={{start_date}}&end_date={{end_date}}
 ```
 | Parameter  | Type   | Required? | Default | Description                             |
 |------------|--------|-----------|---------|-----------------------------------------|
