@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction } from 'express';
 import { RequestHandler, Request, Response } from 'express';
 
 import ListRequest from '../interfaces/ListRequest';
@@ -32,16 +32,17 @@ router.get('/', (async (request: Request, response: Response) => {
  * - id: Id of preferred Station (required)
  * - language: Preferred language for name, name of city and address [en, fi, sv] (not required)
  */
-router.get('/:id', (async (request: Request, response: Response) => {
+router.get('/:id', (async (request: Request, response: Response, next: NextFunction) => {
   const stationRequest: StationRequest = validateStationRequest(request);
 
   const station = await StationsService.getSingle(stationRequest);
 
   if (station === null) {
-    // TODO: Proper error management
-    response.status(404).send('Not found');
+    const error = { name: 'NotFoundError', message: 'Station was not found' };
+    next(error);
     return;
   }
+
   response.json({ data: station });
 }) as RequestHandler);
 
