@@ -24,7 +24,7 @@ export const validateListRequest = (request: Request): ListRequest => {
     limit,
     offset: Number(request.query.offset) || 0,
     language: enumFromStringValue(Language, request.query.language?.toString()) || DEFAULT_LANGUAGE,
-    sortBy: enumFromStringValue(SortBy, request.query.list_by?.toString()) || SortBy.Id,
+    sortBy: enumFromStringValue(SortBy, request.query.order_by?.toString()) || SortBy.Id,
     order: enumFromStringValue(Order, request.query.order?.toString()) || Order.ASC
   };
 

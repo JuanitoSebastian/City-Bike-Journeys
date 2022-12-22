@@ -10,6 +10,15 @@ import { validateListRequest, validateStationRequest, validateStationStatisticsR
 
 const router = express.Router();
 
+/**
+ * Returns a list of stations
+ * Query parameters:
+ * - limit: Number of stations to return
+ * - offset: How much is list offsetted by [for pagination]
+ * - language: Preferred language for name, name of city and address [en, fi, sv]
+ * - order_by: Field to sort results by [id, name]
+ * - order: Order to return results by [ASC, DESC]
+ */
 router.get('/', (async (request: Request, response: Response) => {
   const listRequest: ListRequest = validateListRequest(request);
   const stations = await StationsService.getMany(listRequest);
@@ -17,6 +26,12 @@ router.get('/', (async (request: Request, response: Response) => {
   response.json({data:  stations });
 }) as RequestHandler);
 
+/**
+ * Returns a single Station by id
+ * Query parameters:
+ * - id: Id of preferred Station (required)
+ * - language: Preferred language for name, name of city and address [en, fi, sv] (not required)
+ */
 router.get('/:id', (async (request: Request, response: Response) => {
   const stationRequest: StationRequest = validateStationRequest(request);
 
@@ -30,6 +45,13 @@ router.get('/:id', (async (request: Request, response: Response) => {
   response.json({ data: station });
 }) as RequestHandler);
 
+/**
+ * Returns statistics about a single Station
+ * Query parameters:
+ * - id: Id of preferred Station (required)
+ * - start_date: Start date for filtering (not required)
+ * - end_date: End date for filtering (not required)
+ */
 router.get('/:id/statistics', (async (request: Request, response: Response) => {
   const stationStatisticsRequest: StationStatisticsRequest = validateStationStatisticsRequest(request);
 

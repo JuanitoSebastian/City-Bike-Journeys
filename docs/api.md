@@ -73,3 +73,15 @@ GET /api/stations/{{id}}/statistics?start_date={{start_date}}&end_date={{end_dat
 | id         | string | yes       | -       | Id of station to fetch statistics from. |
 | start_date | date   | no        | -       | Filter by date, start of range.         |
 | end_date   | date   | no        | -       | Filter by date, end of range.           |
+
+**Example response**
+```
+{
+    "data": {
+        "arrivalsCount": "2496",
+        "departuresCount": "2522",
+        "arrivalsAverageDistance": 2554.9294871794873,
+        "departuresAverageDistance": 2486.403647898493
+    }
+}
+```
