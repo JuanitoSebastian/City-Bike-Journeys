@@ -2,8 +2,10 @@ import { Request } from "express";
 
 import ListRequest, { Order, SortBy } from "../interfaces/ListRequest";
 import StationRequest from "../interfaces/StationRequest";
+import StationStatisticsRequest from "../interfaces/StationStatisticsRequest";
 import { Language } from "../interfaces/StringInLanguage";
 import { DEFAULT_LANGUAGE, DEFAULT_QUERY_LIMIT } from "../utils/constants";
+import { parseDate } from "./basicTypes";
 
 /**
  * Parses given Request object and extracts a ListRequest from query parameters.
@@ -35,6 +37,24 @@ export const validateStationRequest = (request: Request): StationRequest => {
     language: enumFromStringValue(Language, request.query.language?.toString()) || DEFAULT_LANGUAGE 
   };
   return stationRequest;
+};
+
+export const validateStationStatisticsRequest = (request: Request): StationStatisticsRequest => {
+  try {
+    const startDate = parseDate(request.query.start_date?.toString());
+    const endDate = parseDate(request.query.end_date?.toString());
+    return {
+      id: request.params.id,
+      startDate,
+      endDate
+    };
+  } catch {
+    return {
+      id: request.params.id,
+      startDate: undefined,
+      endDate: undefined
+    };
+  }
 };
 
 /**

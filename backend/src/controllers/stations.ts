@@ -3,8 +3,10 @@ import { RequestHandler, Request, Response } from 'express';
 
 import ListRequest from '../interfaces/ListRequest';
 import StationRequest from '../interfaces/StationRequest';
+import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
 import StationsService from '../services/stations';
-import { validateListRequest, validateStationRequest } from '../validation/requests';
+import TripsService from '../services/trips';
+import { validateListRequest, validateStationRequest, validateStationStatisticsRequest } from '../validation/requests';
 
 const router = express.Router();
 
@@ -26,6 +28,14 @@ router.get('/:id', (async (request: Request, response: Response) => {
     return;
   }
   response.json({ data: station });
+}) as RequestHandler);
+
+router.get('/:id/statistics', (async (request: Request, response: Response) => {
+  const stationStatisticsRequest: StationStatisticsRequest = validateStationStatisticsRequest(request);
+
+  const tripsStatistics = await TripsService.getStationTripStatistics(stationStatisticsRequest);
+
+  response.json({ data: tripsStatistics });
 }) as RequestHandler);
 
 export default router;
