@@ -4,6 +4,7 @@ import { RequestHandler, Request, Response } from 'express';
 import ListRequest from '../interfaces/ListRequest';
 import StationRequest from '../interfaces/StationRequest';
 import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
+import { Language } from '../interfaces/StringInLanguage';
 import StationsService from '../services/stations';
 import TripsService from '../services/trips';
 import { validateListRequest, validateStationRequest, validateStationStatisticsRequest } from '../validation/requests';
@@ -23,7 +24,7 @@ router.get('/', (async (request: Request, response: Response) => {
   const listRequest: ListRequest = validateListRequest(request);
   const stations = await StationsService.getMany(listRequest);
 
-  response.json({data:  stations });
+  response.json({ data: stations });
 }) as RequestHandler);
 
 /**
@@ -33,17 +34,21 @@ router.get('/', (async (request: Request, response: Response) => {
  * - language: Preferred language for name, name of city and address [en, fi, sv] (not required)
  */
 router.get('/:id', (async (request: Request, response: Response, next: NextFunction) => {
-  const stationRequest: StationRequest = validateStationRequest(request);
+  try {
+    const stationRequest: StationRequest = validateStationRequest(request);
 
-  const station = await StationsService.getSingle(stationRequest);
+    const station = await StationsService.getSingle(stationRequest);
 
-  if (station === null) {
-    const error = { name: 'NotFoundError', message: 'Station was not found' };
+    if (station === null) {
+      const error = { name: 'NotFoundError', message: 'Station was not found' };
+      next(error);
+      return;
+    }
+
+    response.json({ data: station });
+  } catch (error) {
     next(error);
-    return;
   }
-
-  response.json({ data: station });
 }) as RequestHandler);
 
 /**
@@ -53,12 +58,24 @@ router.get('/:id', (async (request: Request, response: Response, next: NextFunct
  * - start_date: Start date for filtering (not required)
  * - end_date: End date for filtering (not required)
  */
-router.get('/:id/statistics', (async (request: Request, response: Response) => {
-  const stationStatisticsRequest: StationStatisticsRequest = validateStationStatisticsRequest(request);
+router.get('/:id/statistics', (async (request: Request, response: Response, next: NextFunction) => {
+  try {
+    const stationStatisticsRequest: StationStatisticsRequest = validateStationStatisticsRequest(request);
 
-  const tripsStatistics = await TripsService.getStationTripStatistics(stationStatisticsRequest);
+    const station = await StationsService.getSingle({ id: stationStatisticsRequest.id, language: Language.English});
 
-  response.json({ data: tripsStatistics });
+    if (station === null) {
+      const error = { name: 'NotFoundError', message: 'Station was not found' };
+      next(error);
+      return;
+    }
+
+
+    const tripsStatistics = await TripsService.getStationTripStatistics(stationStatisticsRequest);
+    response.json({ data: tripsStatistics });
+  } catch (error) {
+    next(error);
+  }
 }) as RequestHandler);
 
 export default router;

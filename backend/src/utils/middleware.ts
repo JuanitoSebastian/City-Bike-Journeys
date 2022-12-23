@@ -9,6 +9,9 @@ const errorHandler = (error: Error, _request: Request, response: Response, next:
   switch (error.name) {
     case 'NotFoundError':
       return response.status(404).json({ error: error.message });
+
+    case 'ValidationError':
+      return response.status(400).json({ error: error.message });
   }
 
   next(error);

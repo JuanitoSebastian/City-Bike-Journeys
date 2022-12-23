@@ -1,4 +1,5 @@
 import { Request } from "express";
+import ValidationError from "./validationError";
 
 import ListRequest, { Order, SortBy } from "../interfaces/ListRequest";
 import StationRequest from "../interfaces/StationRequest";
@@ -42,7 +43,7 @@ export const validateListRequest = (request: Request): ListRequest => {
 export const validateStationRequest = (request: Request): StationRequest => {
   const id = request.params.id;
 
-  if (!stationIdRegex.test(id)) { throw new Error('Invalid station id'); }
+  if (!stationIdRegex.test(id)) { throw new ValidationError('Invalid station id'); }
 
   const stationRequest: StationRequest = {
     id: request.params.id,
@@ -62,7 +63,7 @@ export const validateStationStatisticsRequest = (request: Request): StationStati
   let startDate: string | undefined;
   let endDate: string | undefined;
 
-  if (!stationIdRegex.test(id)) { throw new Error('Invalid station id'); }
+  if (!stationIdRegex.test(id)) { throw new ValidationError('Invalid station id'); }
   
   try {
     startDate = parseDate(request.query.start_date?.toString());
@@ -75,7 +76,7 @@ export const validateStationStatisticsRequest = (request: Request): StationStati
     };
   }
 
-  if (startDate > endDate || endDate < startDate) { throw new Error('Invalid date range'); }
+  if (startDate > endDate || endDate < startDate) { throw new ValidationError('Invalid date range'); }
 
   return {
     id,
