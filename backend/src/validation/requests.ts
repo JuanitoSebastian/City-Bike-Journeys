@@ -7,6 +7,8 @@ import { Language } from "../interfaces/StringInLanguage";
 import { DEFAULT_LANGUAGE, DEFAULT_QUERY_LIMIT } from "../utils/constants";
 import { parseDate } from "./basicTypes";
 
+const stationIdRegex = /^[0-9]{3,5}$/;
+
 /**
  * Parses given Request object and extracts a ListRequest from query parameters.
  * @param request Request object to parse
@@ -31,7 +33,17 @@ export const validateListRequest = (request: Request): ListRequest => {
   return listRequest;
 };
 
+/**
+ * Parses given Request object and extracts a StationRequest from parameters.
+ * @param request Request object to parse
+ * @throws With invalid id
+ * @returns StationRequest. If id is invalid, an error is thrown.
+ */
 export const validateStationRequest = (request: Request): StationRequest => {
+  const id = request.params.id;
+
+  if (!stationIdRegex.test(id)) { throw new Error('Invalid station id'); }
+
   const stationRequest: StationRequest = {
     id: request.params.id,
     language: enumFromStringValue(Language, request.query.language?.toString()) || DEFAULT_LANGUAGE 
@@ -39,22 +51,37 @@ export const validateStationRequest = (request: Request): StationRequest => {
   return stationRequest;
 };
 
+/**
+ * Parses given Request object and extracts a StationStatisticsRequest from parameters.
+ * @param request Request object to parse
+ * @throws With invalid id or invalid date range
+ * @returns StationStatisticsRequest. If a value cannot be parsed or value is invalid, an error is thrown.
+ */
 export const validateStationStatisticsRequest = (request: Request): StationStatisticsRequest => {
+  const id = request.params.id;
+  let startDate: string | undefined;
+  let endDate: string | undefined;
+
+  if (!stationIdRegex.test(id)) { throw new Error('Invalid station id'); }
+  
   try {
-    const startDate = parseDate(request.query.start_date?.toString());
-    const endDate = parseDate(request.query.end_date?.toString());
+    startDate = parseDate(request.query.start_date?.toString());
+    endDate = parseDate(request.query.end_date?.toString());
+  } catch {
     return {
-      id: request.params.id,
+      id,
       startDate,
       endDate
     };
-  } catch {
-    return {
-      id: request.params.id,
-      startDate: undefined,
-      endDate: undefined
-    };
   }
+
+  if (startDate > endDate || endDate < startDate) { throw new Error('Invalid date range'); }
+
+  return {
+    id,
+    startDate,
+    endDate
+  };
 };
 
 /**
