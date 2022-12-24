@@ -68,8 +68,9 @@ const tripDataRawValid = [
 ];
 
 describe('Adding stations', () => {
-  beforeEach(async () => {
+  afterEach(async () => {
     await Station.destroy({ truncate: true, cascade: true });
+    await City.destroy({ truncate: true, cascade: true });
   });
 
   test('Valid stations are added to DB', async () => {
@@ -86,9 +87,13 @@ describe('Adding stations', () => {
 
 describe('Adding trips', () => {
   beforeEach(async () => {
+    await seeder.addStations(stationsDataRawValid);
+  });
+
+  afterEach(async () => {
     await Station.destroy({ truncate: true, cascade: true });
     await Trip.destroy({ truncate: true, cascade: true });
-    await seeder.addStations(stationsDataRawValid);
+    await City.destroy({ truncate: true, cascade: true });
   });
 
   test('Valid trips are added to DB', async () => {

@@ -1,6 +1,6 @@
 import express from 'express';
 import middleware from './utils/middleware';
-const app = express();
+export const app = express();
 
 import sanitizedConfig from './utils/config';
 import { initDatabase } from './services/db';
