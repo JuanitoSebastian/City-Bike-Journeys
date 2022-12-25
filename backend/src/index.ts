@@ -1,21 +1,13 @@
-import express from 'express';
-import middleware from './utils/middleware';
-export const app = express();
-
-import sanitizedConfig from './utils/config';
+import http from 'http';
+import app from './app';
 import { initDatabase } from './services/db';
-import tripsRouter from './controllers/trips';
-import stationsRouter from './controllers/stations';
+import sanitizedConfig from './utils/config';
 
-app.use(express.json());
-app.use('/api/trip', tripsRouter);
-app.use('/api/station', stationsRouter);
-app.use(middleware.unknownEndPoint);
-app.use(middleware.errorHandler);
+const server = http.createServer(app);
 
 const start = async () => {
   await initDatabase();
-  app.listen(sanitizedConfig.PORT, () => {
+  server.listen(sanitizedConfig.PORT, () => {
     console.log(`Server running on port ${sanitizedConfig.PORT}`);
   });
 };

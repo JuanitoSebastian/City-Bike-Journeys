@@ -1,7 +1,7 @@
 import { sequelize } from '../services/db';
 import supertest from 'supertest';
 import TestHelper from './helper';
-import { app } from '..';
+import app from '../app';
 import Station from '../models/station';
 import Trip from '../models/trip';
 import City from '../models/city';
