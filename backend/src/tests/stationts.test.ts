@@ -27,6 +27,27 @@ describe('Stations endpoint', () => {
     const reponse = await api.get('/api/station');
     expect(reponse.body.data).toHaveLength(3);
   });
+
+  test('Stations sorted by id on default', async () => {
+    const response = await api.get('/api/station');
+    expect(response.body.data[0].id).toEqual('001');
+    expect(response.body.data[1].id).toEqual('036');
+    expect(response.body.data[2].id).toEqual('043');
+  });
+
+  test('Limit returns correct amount of stations', async () => {
+    const response = await api.get('/api/station?limit=2');
+    expect(response.body.data[0].id).toEqual('001');
+    expect(response.body.data[1].id).toEqual('036');
+    expect(response.body.data).toHaveLength(2);
+  });
+
+  test('Offset returns correct of stations', async () => {
+    const response = await api.get('/api/station?limit=2&offset=1');
+    expect(response.body.data[0].id).toEqual('036');
+    expect(response.body.data[1].id).toEqual('043');
+    expect(response.body.data).toHaveLength(2);
+  });
 });
 
 afterAll(async () => {
