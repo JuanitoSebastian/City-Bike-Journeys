@@ -39,7 +39,7 @@ const seedTestDataToDb = async () => {
     latitude: 24.950211,
     names: [
       { name: 'Kaivopuisto', language: 'fi' },
-      { name: 'Kaivopuisto', language: 'en' },
+      { name: 'Kaivopark', language: 'en' },
       { name: 'Brunnsparken', language: 'sv' }
     ],
     addresses: [
