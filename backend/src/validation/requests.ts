@@ -19,7 +19,7 @@ export const validateListRequest = (request: Request): ListRequest => {
 
   let limit = Number(request.query.limit) || DEFAULT_QUERY_LIMIT;
 
-  if (limit > 50) { 
+  if (limit > 50 || limit < 1) { 
     limit = DEFAULT_QUERY_LIMIT;
   }
 
