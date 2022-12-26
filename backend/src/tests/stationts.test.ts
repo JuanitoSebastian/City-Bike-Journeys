@@ -98,7 +98,65 @@ describe('Stations endpoint', () => {
     test('Unvalid station id returns 400', async () => {
       await api.get('/api/station/rautatientori').expect(400);
     });
-    
+  });
+
+  describe('Statistics', () => {
+    test('counts calculated correctly', async () => {
+      const statsStation001 = await api.get('/api/station/001/statistics');
+      expect(statsStation001.body.data.arrivalsCount).toEqual('1');
+      expect(statsStation001.body.data.departuresCount).toEqual('2');
+
+      const statsStation036 = await api.get('/api/station/036/statistics');
+      expect(statsStation036.body.data.arrivalsCount).toEqual('2');
+      expect(statsStation036.body.data.departuresCount).toEqual('1');
+
+      const statsStation043 = await api.get('/api/station/043/statistics');
+      expect(statsStation043.body.data.arrivalsCount).toEqual('2');
+      expect(statsStation043.body.data.departuresCount).toEqual('2');
+    });
+
+    test('averages calculated correctly', async () => {
+      const statsStation001 = await api.get('/api/station/001/statistics');
+      // 2043 / 1 = 2043
+      expect(statsStation001.body.data.arrivalsAverageDistance).toEqual(2043);
+      // (4010 + 1698) / 2 = 2854
+      expect(statsStation001.body.data.departuresAverageDistance).toEqual(2854);
+
+      const statsStation036 = await api.get('/api/station/036/statistics');
+      // (5366 + 4010) / 2 = 4688
+      expect(statsStation036.body.data.arrivalsAverageDistance).toEqual(4688);
+      // 3150 / 1 = 3150
+      expect(statsStation036.body.data.departuresAverageDistance).toEqual(3150);
+
+      const statsStation043 = await api.get('/api/station/043/statistics');
+      // (3150 + 1698) / 2 = 4688
+      expect(statsStation043.body.data.arrivalsAverageDistance).toEqual(2424);
+      // (2043 + 5366) / 2 = 3704.5
+      expect(statsStation043.body.data.departuresAverageDistance).toEqual(3704.5);
+    });
+
+    test('filtering by date returns statistics from correct timerange', async () => {
+      const statsStation043 = await api.get('/api/station/043/statistics?start_date=2021-05-31T22:00:00&end_date=2021-06-01T11:00:00');
+      expect(statsStation043.body.data.arrivalsCount).toEqual('0');
+      expect(statsStation043.body.data.arrivalsAverageDistance).toBeNull();
+      expect(statsStation043.body.data.departuresCount).toEqual('2');
+      // (2043 + 5366) / 2 = 3704.5
+      expect(statsStation043.body.data.departuresAverageDistance).toEqual(3704.5);
+    });
+
+    test('filtering by date with an invalid timerange returns 400', async () => {
+      // Start time before end time
+      await api.get('/api/station/043/statistics?start_date=2021-06-01T11:00:00&end_date=2021-05-31T22:00:00').expect(400);
+    });
+
+    test('Nonexistent station id returns 404', async () => {
+      await api.get('/api/station/003/statistics').expect(404);
+    });
+
+    test('Unvalid station id returns 400', async () => {
+      await api.get('/api/station/rautatientori/statistics').expect(400);
+    });
+
   });
 
 });
