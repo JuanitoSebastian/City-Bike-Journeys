@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
-dotenv.config();
+const NODE_ENV = process.env.NODE_ENV || 'production';
+dotenv.config({ path: `./.env.${NODE_ENV}` });
 
 interface ENV {
   NODE_ENV: string | undefined;
@@ -8,10 +9,6 @@ interface ENV {
   POSTGRES_DB: string | undefined;
   POSTGRES_USER: string | undefined;
   POSTGERS_PW: string | undefined;
-  POSTGRES_TEST_URI: string | undefined;
-  POSTGRES_TEST_DB: string | undefined;
-  POSTGRES_TEST_USER: string | undefined;
-  POSTGERS_TEST_PW: string | undefined;
 }
 interface Config {
   NODE_ENV: string;
@@ -20,10 +17,6 @@ interface Config {
   POSTGRES_DB: string;
   POSTGRES_USER: string;
   POSTGERS_PW: string;
-  POSTGRES_TEST_URI: string;
-  POSTGRES_TEST_DB: string;
-  POSTGRES_TEST_USER: string;
-  POSTGERS_TEST_PW: string;
 }
 
 const getConfig = (): ENV => {
@@ -34,10 +27,6 @@ const getConfig = (): ENV => {
     POSTGRES_DB: process.env.POSTGRES_DB,
     POSTGRES_USER: process.env.POSTGRES_USER,
     POSTGERS_PW: process.env.POSTGRES_PW,
-    POSTGRES_TEST_URI: process.env.POSTGRES_TEST_URI,
-    POSTGRES_TEST_DB: process.env.POSTGRES_TEST_DB,
-    POSTGRES_TEST_USER: process.env.POSTGRES_TEST_USER,
-    POSTGERS_TEST_PW: process.env.POSTGRES_TEST_PW
   };
 };
 
