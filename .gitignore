@@ -21,7 +21,9 @@ coverage
 
 # API keys and secrets
 .env
-
+.env.test
+.env.development
+.env.procution
 # Dependency directory
 node_modules
 bower_components
