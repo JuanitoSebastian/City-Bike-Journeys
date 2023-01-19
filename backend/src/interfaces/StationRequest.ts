@@ -1,4 +1,4 @@
-import { Language } from "./StringInLanguage";
+import { Language } from './StringInLanguage';
 
 interface StationRequest {
   id: string;

@@ -5,8 +5,8 @@ interface StringInLanguage {
 
 export enum Language {
   Finnish = 'fi',
-  English = "en",
-  Swedish = "sv"
+  English = 'en',
+  Swedish = 'sv'
 }
 
 export default StringInLanguage;

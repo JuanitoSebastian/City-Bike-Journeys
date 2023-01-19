@@ -1,12 +1,12 @@
-import { Request } from "express";
-import ValidationError from "./validationError";
+import { Request } from 'express';
+import ValidationError from './validationError';
 
-import ListRequest, { Order, SortBy } from "../interfaces/ListRequest";
-import StationRequest from "../interfaces/StationRequest";
-import StationStatisticsRequest from "../interfaces/StationStatisticsRequest";
-import { Language } from "../interfaces/StringInLanguage";
-import { DEFAULT_LANGUAGE, DEFAULT_QUERY_LIMIT } from "../utils/constants";
-import { parseDate } from "./basicTypes";
+import ListRequest, { Order, SortBy } from '../interfaces/ListRequest';
+import StationRequest from '../interfaces/StationRequest';
+import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
+import { Language } from '../interfaces/StringInLanguage';
+import { DEFAULT_LANGUAGE, DEFAULT_QUERY_LIMIT } from '../utils/constants';
+import { parseDate } from './basicTypes';
 
 const stationIdRegex = /^[0-9]{3,5}$/;
 

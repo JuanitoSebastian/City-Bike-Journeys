@@ -1,8 +1,8 @@
-import { Op } from "sequelize";
-import { Sequelize } from "sequelize-typescript";
+import { Op } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 
-import StationStatisticsRequest from "../interfaces/StationStatisticsRequest";
-import Trip from "../models/trip";
+import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
+import Trip from '../models/trip';
 
 /**
  * Fetches statistics of a single station from database

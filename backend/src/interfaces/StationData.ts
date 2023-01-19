@@ -1,4 +1,4 @@
-import StringInLanguage from "./StringInLanguage";
+import StringInLanguage from './StringInLanguage';
 
 export interface StationData {
   stationId: string;

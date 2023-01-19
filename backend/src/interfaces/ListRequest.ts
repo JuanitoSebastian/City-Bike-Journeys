@@ -1,4 +1,4 @@
-import { Language } from "./StringInLanguage";
+import { Language } from './StringInLanguage';
 
 interface ListRequest {
   limit: number;

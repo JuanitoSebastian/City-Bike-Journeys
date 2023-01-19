@@ -1,5 +1,5 @@
-import TripData from "../interfaces/TripData";
-import { parseTripDataFormCsv, validateTrip } from "../validation/csvData";
+import TripData from '../interfaces/TripData';
+import { parseTripDataFormCsv, validateTrip } from '../validation/csvData';
 
 
 describe('CSV parsing', () => {
