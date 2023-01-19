@@ -7,13 +7,14 @@ import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
 import { Language } from '../interfaces/StringInLanguage';
 import { DEFAULT_LANGUAGE, DEFAULT_QUERY_LIMIT } from '../utils/constants';
 import { parseDate } from './basicTypes';
+import TripListRequest from '../interfaces/TripListRequest';
 
 const stationIdRegex = /^[0-9]{3,5}$/;
 
 /**
  * Parses given Request object and extracts a ListRequest from query parameters.
  * @param request Request object to parse
- * @returns Always a ListRequest. If a value cannot be parsed it replaced by a default value.
+ * @returns Always a StationListRequest. If a value cannot be parsed it replaced by a default value.
  */
 export const validateListRequest = (request: Request): StationListRequest => {
 
@@ -83,6 +84,28 @@ export const validateStationStatisticsRequest = (request: Request): StationStati
     startDate,
     endDate
   };
+};
+
+/**
+ * Parses given Request object and extracts a TripListRequest from query parameters
+ * @param request Request object to parse
+ * @returns Always a TripListRequest. If a value cannot be parsed it replaced by a default value.
+ */
+export const validateTripListRequest = (request: Request): TripListRequest => {
+  let limit = Number(request.query.limit) || DEFAULT_QUERY_LIMIT;
+
+  if (limit > 50 || limit < 1) { 
+    limit = DEFAULT_QUERY_LIMIT;
+  }
+
+  const tripListRequest: TripListRequest = {
+    limit,
+    offset: Number(request.query.offset) || 0,
+    language: enumFromStringValue(Language, request.query.language?.toString()) || DEFAULT_LANGUAGE,
+  };
+
+  return tripListRequest;
+
 };
 
 /**

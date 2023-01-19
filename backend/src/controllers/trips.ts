@@ -1,12 +1,14 @@
-import express from 'express';
+import express, { Response, Request } from 'express';
 import { RequestHandler } from 'express';
-import Trip from '../models/trip';
+import TripsService from '../services/trips';
+import { validateTripListRequest } from '../validation/requests';
 
 const router = express.Router();
 
-router.get('/', (async (_request, response) => {
-  const trips = await Trip.findAll();
-  response.json(trips);
+router.get('/', (async (request: Request, response: Response) => {
+  const tripListRequest = validateTripListRequest(request);
+  const trips = await TripsService.getMany(tripListRequest);
+  response.json({ data: trips });
 }) as RequestHandler);
 
 export default router;
