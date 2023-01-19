@@ -2,7 +2,47 @@ import { Op } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 
 import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
+import TripListRequest from '../interfaces/TripListRequest';
+import Station from '../models/station';
+import StationName from '../models/stationName';
 import Trip from '../models/trip';
+
+/**
+ * Fetches multiple trips from DB
+ * @param tripListRequest Requesst with limit and offset
+ * @returns A list of Trip objects with the following fields:
+ * - id
+ * - startTime
+ * - endTime
+ * - startStation: name of start station (in given language from request)
+ * - endStation: name of end station (in given language from request)
+ * - distanceMeters
+ * - durationSeconds
+ */
+const getMany = async (tripListRequest: TripListRequest): Promise<Trip[]> =>  {
+  const trips = await Trip.findAll({
+    subQuery: false,
+    raw: true,
+    nest: true,
+    limit: tripListRequest.limit,
+    offset: tripListRequest.offeset,
+    attributes: [
+      'id',
+      'startTime',
+      'endTime',
+      [Sequelize.col('startStation.names.name'), 'startStation'],
+      [Sequelize.col('endStation.names.name'), 'endStation'],
+      'distanceMeters',
+      'durationSeconds'
+    ],
+    include: [
+      { model: Station, as: 'startStation', on: { id: { [Op.eq]: Sequelize.col('Trip.startStationId') } }, attributes: [], include: [{ model: StationName, attributes: [], where: { language: tripListRequest.language } }]},
+      { model: Station, as: 'endStation', on: { id: { [Op.eq]: Sequelize.col('Trip.endStationId') } }, attributes: [], include: [{ model: StationName, attributes: [], where: { language: tripListRequest.language } }]}
+    ]
+  });
+
+  return trips;
+};
 
 /**
  * Fetches statistics of a single station from database
@@ -48,5 +88,6 @@ const getStationTripStatistics = async (stationStatisticsRequest: StationStatist
 };
 
 export default {
+  getMany,
   getStationTripStatistics
 };
