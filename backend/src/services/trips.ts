@@ -38,7 +38,8 @@ const getMany = async (tripListRequest: TripListRequest): Promise<Trip[]> =>  {
     include: [
       { model: Station, as: 'startStation', on: { id: { [Op.eq]: Sequelize.col('Trip.startStationId') } }, attributes: [], include: [{ model: StationName, attributes: [], where: { language: tripListRequest.language } }]},
       { model: Station, as: 'endStation', on: { id: { [Op.eq]: Sequelize.col('Trip.endStationId') } }, attributes: [], include: [{ model: StationName, attributes: [], where: { language: tripListRequest.language } }]}
-    ]
+    ],
+    order: [['startTime', 'ASC']]
   });
 
   return trips;
