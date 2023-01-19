@@ -15,6 +15,7 @@ tmp
 
 # Build
 /backend/build
+frontend/public/build/
 
 # Coverage reports
 coverage
@@ -41,3 +42,6 @@ dist/**/*
 
 # ignore yarn.lock
 yarn.lock
+
+# VS CODE
+.vscode
