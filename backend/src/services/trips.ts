@@ -25,7 +25,7 @@ const getMany = async (tripListRequest: TripListRequest): Promise<Trip[]> =>  {
     raw: true,
     nest: true,
     limit: tripListRequest.limit,
-    offset: tripListRequest.offeset,
+    offset: tripListRequest.offset,
     attributes: [
       'id',
       'startTime',
