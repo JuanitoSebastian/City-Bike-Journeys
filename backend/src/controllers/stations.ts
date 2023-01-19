@@ -1,7 +1,7 @@
 import express, { NextFunction } from 'express';
 import { RequestHandler, Request, Response } from 'express';
 
-import ListRequest from '../interfaces/ListRequest';
+import StationListRequest from '../interfaces/StationListRequest';
 import StationRequest from '../interfaces/StationRequest';
 import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
 import { Language } from '../interfaces/StringInLanguage';
@@ -21,7 +21,7 @@ const router = express.Router();
  * - order: Order to return results by [ASC, DESC]
  */
 router.get('/', (async (request: Request, response: Response) => {
-  const listRequest: ListRequest = validateListRequest(request);
+  const listRequest: StationListRequest = validateListRequest(request);
   const stations = await StationsService.getMany(listRequest);
 
   response.json({ data: stations });

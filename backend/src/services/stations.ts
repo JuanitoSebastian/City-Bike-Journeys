@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import ListRequest from '../interfaces/ListRequest';
+import StationListRequest from '../interfaces/StationListRequest';
 import StationRequest from '../interfaces/StationRequest';
 import { Language } from '../interfaces/StringInLanguage';
 
@@ -21,7 +21,7 @@ import StationName from '../models/stationName';
  * - latitude: Latitude of station
  * - longitude: Longitude of station
  */
-const getMany = async (listRequest: ListRequest): Promise<Station[]> => {
+const getMany = async (listRequest: StationListRequest): Promise<Station[]> => {
 
   const languageCity = listRequest.language === Language.English ? Language.Finnish : listRequest.language;
   const languageAddress = listRequest.language === Language.English ? Language.Finnish : listRequest.language;

@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import ValidationError from './validationError';
 
-import ListRequest, { Order, SortBy } from '../interfaces/ListRequest';
+import StationListRequest, { StationListOrder, StationListSortBy } from '../interfaces/StationListRequest';
 import StationRequest from '../interfaces/StationRequest';
 import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
 import { Language } from '../interfaces/StringInLanguage';
@@ -15,7 +15,7 @@ const stationIdRegex = /^[0-9]{3,5}$/;
  * @param request Request object to parse
  * @returns Always a ListRequest. If a value cannot be parsed it replaced by a default value.
  */
-export const validateListRequest = (request: Request): ListRequest => {
+export const validateListRequest = (request: Request): StationListRequest => {
 
   let limit = Number(request.query.limit) || DEFAULT_QUERY_LIMIT;
 
@@ -23,12 +23,12 @@ export const validateListRequest = (request: Request): ListRequest => {
     limit = DEFAULT_QUERY_LIMIT;
   }
 
-  const listRequest: ListRequest = {
+  const listRequest: StationListRequest = {
     limit,
     offset: Number(request.query.offset) || 0,
     language: enumFromStringValue(Language, request.query.language?.toString()) || DEFAULT_LANGUAGE,
-    sortBy: enumFromStringValue(SortBy, request.query.order_by?.toString()) || SortBy.Id,
-    order: enumFromStringValue(Order, request.query.order?.toString()) || Order.ASC
+    sortBy: enumFromStringValue(StationListSortBy, request.query.order_by?.toString()) || StationListSortBy.Id,
+    order: enumFromStringValue(StationListOrder, request.query.order?.toString()) || StationListOrder.ASC
   };
 
   return listRequest;
