@@ -23,8 +23,15 @@ const router = express.Router();
 router.get('/', (async (request: Request, response: Response) => {
   const listRequest: StationListRequest = validateListRequest(request);
   const stations = await StationsService.getMany(listRequest);
+  const stationsCount = await StationsService.getCount();
+  
+  const paging = {
+    total: stationsCount,
+    page: Math.ceil(listRequest.offset / listRequest.limit),
+    pages: Math.ceil(stationsCount / listRequest.limit)
+  };
 
-  response.json({ data: stations });
+  response.json({ data: stations, paging });
 }) as RequestHandler);
 
 /**

@@ -88,7 +88,17 @@ const getStationTripStatistics = async (stationStatisticsRequest: StationStatist
   return trips;
 };
 
+/**
+ * Counts all Trips in DB
+ * @returns Number of all trips
+ */
+const getCount = async (): Promise<number> => {
+  const count = await Trip.count();
+  return count;
+};
+
 export default {
   getMany,
-  getStationTripStatistics
+  getStationTripStatistics,
+  getCount
 };

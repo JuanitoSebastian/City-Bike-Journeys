@@ -91,7 +91,17 @@ const getSingle = async (stationRequest: StationRequest): Promise<Station | null
   return station;
 };
 
+/**
+ * Counts all stations in DB
+ * @returns Number of all stations
+ */
+const getCount = async (): Promise<number> => {
+  const stationCount = await Station.count();
+  return stationCount;
+};
+
 export default {
   getMany: getMany,
-  getSingle: getSingle
+  getSingle: getSingle,
+  getCount
 };
