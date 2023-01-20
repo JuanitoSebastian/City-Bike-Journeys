@@ -26,3 +26,16 @@ export interface Trip {
   distanceMeters: number;
   durationSeconds: number;
 };
+
+export interface PagingDetails {
+  total: number;
+  page: number;
+  pages: number;
+};
+
+export interface ApiResponsePagingDetails {
+  data: unknown;
+  paging: PagingDetails;
+};
+
+export type ApiReponse = Omit<ApiResponsePagingDetails, 'paging'>;
