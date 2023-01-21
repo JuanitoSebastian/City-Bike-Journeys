@@ -1,6 +1,12 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import StationService from './services/stations';
   import Tailwindcss from './components/Tailwindcss.svelte';
-	export let name: string;
+  onMount(async () => {
+    const [paging, stations] = await StationService.getStations();
+    console.log(stations);
+    console.log(paging);
+  });
 </script>
 
 <main>

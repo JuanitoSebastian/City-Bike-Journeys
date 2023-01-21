@@ -81,6 +81,20 @@ export const parseStation = (station: unknown): Station => {
   return station;
 };
 
+export const parseStationArray = (stationArray: unknown): Station[] => {
+  if (!stationArray || !isArray(stationArray)) {
+    throw new Error('Incorrect type, not Array');
+  }
+
+  for (const station of stationArray) {
+    if (!station || !isStation(station)) {
+      throw new Error('Incorrect type, not Station');
+    }
+  }
+  
+  return stationArray;
+};
+
 const isStationStatistics = (stationStatistics: unknown): stationStatistics is StationStatistics => {
   return typeof stationStatistics === 'object' && stationStatistics !== null &&
   'arrivalsCount' in stationStatistics && stationStatistics.arrivalsCount === 'number' &&
