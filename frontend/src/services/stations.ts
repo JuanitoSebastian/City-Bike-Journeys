@@ -1,6 +1,6 @@
-import type { PagingDetails, Station } from "../utils/interfaces";
-import axios from "axios";
-import { parseApiResponsePagingDetails, parseStationArray } from "../utils/validation";
+import type { PagingDetails, Station } from '../utils/interfaces';
+import axios from 'axios';
+import { parseApiResponsePagingDetails, parseStationArray } from '../utils/validation';
 
 const baseUrl = `${process.env.API_URL}/station`;
 

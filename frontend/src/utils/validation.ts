@@ -1,4 +1,4 @@
-import type { ApiReponse, ApiResponsePagingDetails, PagingDetails, Station, StationStatistics } from "./interfaces";
+import type { ApiReponse, ApiResponsePagingDetails, PagingDetails, Station, StationStatistics } from './interfaces';
 
 const isArray = (array: unknown): array is [] => {
   return Array.isArray(array);
