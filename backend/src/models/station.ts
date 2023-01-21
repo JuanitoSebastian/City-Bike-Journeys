@@ -21,10 +21,10 @@ class Station extends Model {
   @Column
   maximumCapacity!: number;
 
-  @Column(DataType.DECIMAL(8,6))
+  @Column(DataType.DOUBLE)
   latitude!: number;
 
-  @Column(DataType.DECIMAL(9,6))
+  @Column(DataType.DOUBLE)
   longitude!: number;
 
   @HasMany(() => StationName)
