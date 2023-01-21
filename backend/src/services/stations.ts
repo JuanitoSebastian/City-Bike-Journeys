@@ -87,7 +87,6 @@ const getSingle = async (stationRequest: StationRequest): Promise<Station | null
       { model: StationName, attributes: [], where: { language: stationRequest.language } }
     ]
   });
-
   return station;
 };
 

@@ -65,8 +65,8 @@ describe('Stations endpoint', () => {
       expect(reponse.body.data.address).toEqual('Meritori 1');
       expect(reponse.body.data.city).toEqual('Helsinki');
       expect(reponse.body.data.maximumCapacity).toEqual(30);
-      expect(reponse.body.data.latitude).toEqual('24.950211');
-      expect(reponse.body.data.longitude).toEqual('60.155370');
+      expect(reponse.body.data.latitude).toEqual(24.950211);
+      expect(reponse.body.data.longitude).toEqual(60.155370);
     });
 
     test('Language set to sv returns station in swedish', async () => {
@@ -76,8 +76,8 @@ describe('Stations endpoint', () => {
       expect(reponse.body.data.address).toEqual('Havstorget 1');
       expect(reponse.body.data.city).toEqual('Helsingfors');
       expect(reponse.body.data.maximumCapacity).toEqual(30);
-      expect(reponse.body.data.latitude).toEqual('24.950211');
-      expect(reponse.body.data.longitude).toEqual('60.155370');
+      expect(reponse.body.data.latitude).toEqual(24.950211);
+      expect(reponse.body.data.longitude).toEqual(60.155370);
     });
 
     test('Language set to fi returns station in finnish', async () => {
@@ -87,8 +87,8 @@ describe('Stations endpoint', () => {
       expect(reponse.body.data.address).toEqual('Meritori 1');
       expect(reponse.body.data.city).toEqual('Helsinki');
       expect(reponse.body.data.maximumCapacity).toEqual(30);
-      expect(reponse.body.data.latitude).toEqual('24.950211');
-      expect(reponse.body.data.longitude).toEqual('60.155370');
+      expect(reponse.body.data.latitude).toEqual(24.950211);
+      expect(reponse.body.data.longitude).toEqual(60.155370);
     });
 
     test('Nonexistent station id returns 404', async () => {
