@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Router, Route } from 'svelte-navigator';
-  import SideBar from './components/SideBar/SideBar.svelte';
-  import StationsList from './components/StationsList/StationsList.svelte';
+  import SideBar from './components/SideBar/SideBar.svelte';;
+  import StationsView from './components/StationsView/StationsView.svelte';
   import Tailwindcss from './components/Tailwindcss.svelte';
 </script>
 
@@ -16,7 +16,7 @@
     </Route>
     <Route path="stations">
       <div class="container mx-auto my-4 px-4">
-        <StationsList />
+        <StationsView />
       </div>
     </Route>
     <Route path="about">
