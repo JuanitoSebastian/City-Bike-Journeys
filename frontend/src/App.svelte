@@ -1,15 +1,33 @@
 <script lang="ts">
+  import { Router, Route } from 'svelte-navigator';
   import SideBar from './components/SideBar/SideBar.svelte';
   import StationsList from './components/StationsList/StationsList.svelte';
   import Tailwindcss from './components/Tailwindcss.svelte';
 </script>
 
-<main>
+<Router>
   <Tailwindcss />
   <div class="flex flex-row w-full">
     <SideBar />
-    <div class="container mx-auto my-4 px-4">
-      <StationsList />
-    </div>
+    <Route path="trips">
+      <div class="container mx-auto my-4 px-4">
+        <p>Trips</p>
+      </div>
+    </Route>
+    <Route path="stations">
+      <div class="container mx-auto my-4 px-4">
+        <StationsList />
+      </div>
+    </Route>
+    <Route path="about">
+      <div class="container mx-auto my-4 px-4">
+        <p>App by juan.fi</p>
+      </div>
+    </Route>
+    <Route path="/">
+      <div class="container mx-auto my-4 px-4">
+        <p>Home</p>
+      </div>
+    </Route>
   </div>
-</main>
+</Router>
