@@ -1,5 +1,5 @@
 import { Writable, writable } from 'svelte/store';
-import type { DropDownOption, Station, StationsQueryParameters } from './utils/interfaces';
+import type { DropDownOption, PagingDetails, Station, StationsQueryParameters } from './utils/interfaces';
 
 export const languageOptions: DropDownOption[] = [
   { value: 'fi', label: 'Finnish'},
@@ -27,3 +27,4 @@ const stationsDefaultQueryParameters: StationsQueryParameters = {
 
 export const stations: Writable<Station[]|undefined> = writable([]);
 export const stationsQueryParameters: Writable<StationsQueryParameters> = writable(stationsDefaultQueryParameters);
+export const stationsPaging: Writable<PagingDetails|undefined> = writable(undefined);
