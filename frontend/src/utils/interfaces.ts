@@ -46,3 +46,16 @@ export interface DropDownOption {
   value: string;
   label: string;
 };
+
+export interface DropDownDetails {
+  id: string;
+  label: string;
+};
+
+export interface StationsQueryParameters {
+  limit: number;
+  offset: number;
+  language: DropDownOption;
+  orderBy: DropDownOption;
+  order: DropDownOption;
+};
