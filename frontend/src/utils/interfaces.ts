@@ -40,7 +40,7 @@ export interface ApiResponsePagingDetails {
 
 export type ApiReponse = Omit<ApiResponsePagingDetails, 'paging'>;
 
-export type IconType = 'bolt'|'flag'|'cog'|'info';
+export type IconType = 'bolt'|'flag'|'cog'|'info'|'chevron-left'|'chevron-right';
 
 export interface DropDownOption {
   value: string;
