@@ -6,7 +6,7 @@
 
 <div class="bg-white px-4 py-2 rounded-lg">
   {#if $stations !== undefined}
-    <table class="table-auto w-full">
+    <table class="table-fixed w-full">
       <StationListHead />
       <tbody>
         {#each $stations as station}

@@ -1,13 +1,15 @@
 <script lang="ts">
   import StationsList from './StationsList.svelte';
   import { onMount } from 'svelte';
-  import { stations } from '../../stores';
+  import { stations, stationsQueryParameters } from '../../stores';
   import StationService from '../../services/stations';
   import StationsListSorting from './StationsListSorting.svelte';
-  onMount(async () => {
-    const [paging, stationsFromApi] = await StationService.getStations();
+
+  stationsQueryParameters.subscribe(async updatedParameters => {
+    const [paging, stationsFromApi] = await StationService.getStations(updatedParameters);
     stations.set(stationsFromApi);
   });
+
 </script>
 
 <div class="flex flex-col gap-4">

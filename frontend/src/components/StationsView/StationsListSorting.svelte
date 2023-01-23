@@ -1,24 +1,37 @@
 <script lang="ts">
   import type { DropDownOption } from '../../utils/interfaces';
+  import {
+    stationsQueryParameters,
+    orderOptions,
+    orderByOptions,
+  } from '../../stores';
   import DropDown from '../DropDown.svelte';
 
-  export const sortingDirections: DropDownOption[] = [
-    { value: 'ASC', label: 'Ascending' },
-    { value: 'DESC', label: 'Descending' },
-  ];
-  let sortOrder = sortingDirections[0];
-
   const setOrder = (value: DropDownOption) => {
-    console.log(value);
+    stationsQueryParameters.set({ ...$stationsQueryParameters, order: value });
+  };
+
+  const setOrderBy = (value: DropDownOption) => {
+    stationsQueryParameters.set({
+      ...$stationsQueryParameters,
+      orderBy: value,
+    });
   };
 </script>
 
 <div
-  class="bg-white p-4 rounded-lg w-full h-20 flex flex-row items-center justify-end"
+  class="bg-white p-4 rounded-lg w-full flex flex-row items-center justify-end gap-4 h-16"
 >
   <DropDown
-    options={sortingDirections}
-    bind:selected={sortOrder}
+    dropDownDetails={{ id: 'order_by', label: 'Order by' }}
+    options={orderByOptions}
+    bind:selected={$stationsQueryParameters.orderBy}
+    onChange={setOrderBy}
+  />
+  <DropDown
+    dropDownDetails={{ id: 'order', label: 'Order' }}
+    options={orderOptions}
+    bind:selected={$stationsQueryParameters.order}
     onChange={setOrder}
   />
 </div>

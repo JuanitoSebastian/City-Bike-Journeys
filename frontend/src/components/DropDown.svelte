@@ -10,7 +10,7 @@
 <div class="flex flex-row justify-start items-center">
   <label for={dropDownDetails.id} class="text-sm text-gray-600">{dropDownDetails.label}</label>
   <select
-    class="text-sm font-semibold border text-blue-600 rounded-lg px-2 border-none"
+    class="text-sm font-semibold border text-blue-600 rounded-lg px-2 border-none appearance-none"
     id={dropDownDetails.id}
     bind:value={selected}
     on:change={() => onChange(selected)}
