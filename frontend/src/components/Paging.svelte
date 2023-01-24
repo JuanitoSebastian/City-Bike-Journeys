@@ -33,9 +33,9 @@
   class="bg-white p-4 rounded-lg w-full flex flex-row items-center justify-center gap-4 h-16"
 >
   {#if paging}
-  <div class="flex flex-row w-64 h-10 bg-gray-100 rounded-lg border border-gray-300">
+  <div class="flex flex-row w-fit h-10 bg-gray-100 rounded-lg border border-gray-300">
     <div
-      class="w-full h-full flex flex-col items-center justify-center text-blue-600"
+      class="w-20 h-full flex flex-col items-center justify-center text-blue-600"
     >
       {#if paging.page > 0}
         <button on:click={() => decrement()}>
@@ -44,12 +44,12 @@
       {/if}
     </div>
     <div
-      class="w-48 h-full border-x bg-gray-50 border-gray-300 flex flex-row items-center justify-center text-sm"
+      class="px-2 w-fit h-full border-x bg-gray-50 border-gray-300 flex flex-row items-center justify-center text-sm"
     >
       {paging.page} / {paging.pages - 1}
     </div>
     <div
-      class="w-full h-full flex flex-col items-center justify-center text-blue-600"
+      class="w-20 h-full flex flex-col items-center justify-center text-blue-600"
     >
       {#if paging.page < paging.pages - 1}
         <button on:click={() => increment()}>
