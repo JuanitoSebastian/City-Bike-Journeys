@@ -1,6 +1,6 @@
-import type { PagingDetails, Station, StationsQueryParameters } from '../utils/interfaces';
+import type { PagingDetails, Station, StationsQueryParameters, StationStatistics } from '../utils/interfaces';
 import axios from 'axios';
-import { parseApiResponse, parseApiResponsePagingDetails, parseStation, parseStationArray } from '../utils/validation';
+import { parseApiResponse, parseApiResponsePagingDetails, parseStation, parseStationArray, parseStationStatistics } from '../utils/validation';
 
 const baseUrl = `${process.env.API_URL}/station`;
 
@@ -34,7 +34,24 @@ const getStation = async (stationId: string): Promise<Station | undefined> => {
   }
 };
 
+/**
+ * Fetch StationStatistics with a given stationId from API.
+ * @param stationId: Id of station
+ * @returns On success StationStatistics object. On fail undefined.
+ */
+const getStationStatistics = async (stationId: string): Promise<StationStatistics | undefined> => {
+  try {
+    const apiResponse = await axios(`${baseUrl}/${stationId}/statistics`);
+    const parsedApiResponse = parseApiResponse(apiResponse.data);
+    const stationStatistics = parseStationStatistics(parsedApiResponse.data);
+    return stationStatistics;
+  } catch (error) {
+    return undefined;
+  }
+};
+
 export default {
   getStations,
-  getStation
+  getStation,
+  getStationStatistics
 };
