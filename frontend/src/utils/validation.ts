@@ -97,10 +97,10 @@ export const parseStationArray = (stationArray: unknown): Station[] => {
 
 const isStationStatistics = (stationStatistics: unknown): stationStatistics is StationStatistics => {
   return typeof stationStatistics === 'object' && stationStatistics !== null &&
-  'arrivalsCount' in stationStatistics && stationStatistics.arrivalsCount === 'number' &&
-  'departuresCount' in stationStatistics && stationStatistics.departuresCount === 'number' &&
-  'arrivalsAverageDistance' in stationStatistics && stationStatistics.arrivalsAverageDistance === 'number' &&
-  'departuresAverageDistance' in stationStatistics && stationStatistics.departuresAverageDistance === 'number';
+  'arrivalsCount' in stationStatistics && typeof stationStatistics.arrivalsCount === 'number' &&
+  'departuresCount' in stationStatistics && typeof stationStatistics.departuresCount === 'number' &&
+  'arrivalsAverageDistance' in stationStatistics && typeof stationStatistics.arrivalsAverageDistance === 'number' &&
+  'departuresAverageDistance' in stationStatistics && typeof stationStatistics.departuresAverageDistance === 'number';
 };
 
 export const parseStationStatistics = (stationStatistics: unknown): StationStatistics => {
