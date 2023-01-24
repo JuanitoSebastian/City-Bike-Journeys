@@ -1,7 +1,8 @@
 <script lang="ts">
   import { Router, Route } from 'svelte-navigator';
-  import SideBar from './components/SideBar/SideBar.svelte';;
+  import SideBar from './components/SideBar/SideBar.svelte';
   import StationsView from './components/StationsView/StationsView.svelte';
+  import StationView from './components/StationView/StationView.svelte';
   import Tailwindcss from './components/Tailwindcss.svelte';
 </script>
 
@@ -9,17 +10,22 @@
   <Tailwindcss />
   <div class="flex flex-row w-full">
     <SideBar />
-    <Route path="trips">
+    <Route path="/trips">
       <div class="container mx-auto my-4 px-4">
         <p>Trips</p>
       </div>
     </Route>
-    <Route path="stations">
-      <div class="container mx-auto my-4 px-4">
-        <StationsView />
-      </div>
+    <Route path="/stations/*">
+      <Route path="/">
+        <div class="container mx-auto my-4 px-4">
+          <StationsView />
+        </div>
+      </Route>
+      <Route path=":id" let:params>
+        <StationView stationId={params.id} />
+      </Route>
     </Route>
-    <Route path="about">
+    <Route path="/about">
       <div class="container mx-auto my-4 px-4">
         <p>App by juan.fi</p>
       </div>
