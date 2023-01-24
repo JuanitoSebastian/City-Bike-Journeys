@@ -2,7 +2,8 @@
  @component
   A simple pagination component featuring a button for prev and next page.
   - paging: PagingDetails to display paging from. If undefined nothing is rendered.
-  - onChange: function to call with the current page when user changes page
+  - onChange: function to call when the user changes page. function is called with the
+    number of the page that the user wants to see.
 -->
 
 <script lang="ts">
@@ -16,16 +17,14 @@
     if (paging.page >= paging.pages - 1) {
       return;
     }
-    paging.page += 1;
-    onChange(paging.page);
+    onChange(paging.page + 1);
   };
 
   const decrement = () => {
     if (paging.page < 1) {
       return;
     }
-    paging.page -= 1;
-    onChange(paging.page);
+    onChange(paging.page - 1);
   };
 </script>
 
