@@ -1,6 +1,5 @@
 import path from 'path';
-import { parse } from 'csv-parse';
-import { createReadStream } from 'fs';
+import { readFileSync } from 'fs';
 
 import TripData from '../interfaces/TripData';
 import StringInLanguage from '../interfaces/StringInLanguage';
@@ -16,16 +15,18 @@ import Trip from '../models/trip';
 import { Op } from 'sequelize';
 
 /**
- * Reads a given .csv file and returns the contents in an array.
+ * Reads a given .csv file and returns the contents in an array. 
+ * A set is used to get rid of duplicate values. Funciton skips
+ * first row (header) of the .csv file.
  * @param filename Path to .csv file
  * @returns Unsanitized array with contents of .csv file
  */
-const readCsvFile = async (filename: string): Promise<unknown[]> => {
+const readCsvFile = (filename: string): unknown[] => {
   const records: unknown[] = [];
-  const parser = createReadStream(filename)
-    .pipe(parse({ from_line: 2 }));
-  for await (const record of parser) {
-    records.push(record);
+  const file = [...new Set(readFileSync(filename).toString().split('\n'))];
+  for (const [index, row] of file.entries()) {
+    if (index === 0) { continue; }
+    records.push(row.split(','));
   }
   return records;
 };
@@ -37,7 +38,13 @@ const readCsvFile = async (filename: string): Promise<unknown[]> => {
  */
 const addStations = async (stationsDataRaw: unknown[]): Promise<string[]> => {
   const addedStationIds: string[] = [];
-  const stationDataSanitized: StationData[] = stationsDataRaw.map(stationRaw => parseStationDataFromCsv(stationRaw));
+  const stationDataSanitized: StationData[] = stationsDataRaw.flatMap(stationRaw => {
+    try {
+      return parseStationDataFromCsv(stationRaw);
+    } catch (error) {
+      return [];
+    }
+  });
 
   for (const stationData of stationDataSanitized) {
     const city = await findOrCreateCity(stationData.city);
@@ -54,9 +61,9 @@ const addStations = async (stationsDataRaw: unknown[]): Promise<string[]> => {
  * @returns City object (promise)
  */
 const findOrCreateCity = async (cityNames: StringInLanguage[]): Promise<City> => {
-  const cityFromDb = await City.findOne({ 
-    include: { 
-      model: CityName, 
+  const cityFromDb = await City.findOne({
+    include: {
+      model: CityName,
       where: {
         cityName: {
           [Op.eq]: cityNames[0].string
@@ -71,8 +78,8 @@ const findOrCreateCity = async (cityNames: StringInLanguage[]): Promise<City> =>
 
   const newCity = await City.create({
     names: cityNames.map((cityNameData) => { return { cityName: cityNameData.string, language: cityNameData.langugage }; })
-  }, { 
-    include: [CityName] 
+  }, {
+    include: [CityName]
   });
 
   return newCity;
@@ -108,6 +115,7 @@ const createStation = async (stationData: StationData, city: City): Promise<Stat
  */
 const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
   // TODO: Maybe refactor this to clearer code?
+  console.log(`TripsDataRaw count: ${tripsDataRaw.length}`);
   const tripsData: TripData[] = tripsDataRaw
     .flatMap((rawData) => {
       try {
@@ -118,9 +126,11 @@ const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
     })
     .filter(tripData => validateTrip(tripData, validStationIds));
   console.log(`Parsed ${tripsData.length} trips from .csv, inserting to db...`);
+  console.log(`Trips Data count: ${tripsData.length}`);
+  const tripsSet = [... new Set(tripsData)];
 
   try {
-    await Trip.bulkCreate(tripsData.map((tripData) => {
+    await Trip.bulkCreate(tripsSet.map((tripData) => {
       return {
         startTime: tripData.startTime,
         endTime: tripData.endTime,
@@ -133,6 +143,8 @@ const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
   } catch (error) {
     console.log(error);
   }
+  const count = await Trip.count();
+  console.log(`Number of trips in DB ${count}`);
   console.log('Insertion to db done');
 };
 
@@ -144,7 +156,7 @@ const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
  * - /data/2021-07.csv
  */
 export const seedDb = async () => {
-  const stationsDataRaw = await readCsvFile(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
+  const stationsDataRaw = readCsvFile(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
   const addedStationIds = await addStations(stationsDataRaw);
 
   const tripsPaths = [
@@ -154,7 +166,7 @@ export const seedDb = async () => {
   ];
 
   for (const pathToTrips of tripsPaths) {
-    const rawTripsData = await readCsvFile(pathToTrips);
+    const rawTripsData = readCsvFile(pathToTrips);
     await addTrips(rawTripsData, addedStationIds);
   }
 };
