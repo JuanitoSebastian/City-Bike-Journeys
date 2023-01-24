@@ -4,7 +4,7 @@
 </script>
 
 <tr
-  class="group h-12 border-t border-gray-100 hover:bg-gray-50 cursor-pointer transition-all duration-75"
+  class="h-12 border-t border-gray-100"
 >
   <td>{trip.startTime}</td>
   <td>{trip.endTime}</td>
