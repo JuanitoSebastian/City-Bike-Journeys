@@ -4,6 +4,7 @@
   import StationsView from './components/StationsView/StationsView.svelte';
   import StationView from './components/StationView/StationView.svelte';
   import Tailwindcss from './components/Tailwindcss.svelte';
+  import TripsView from './components/TripsView/TripsView.svelte';
 </script>
 
 <Router>
@@ -12,7 +13,7 @@
     <SideBar />
     <Route path="/trips">
       <div class="container mx-auto my-4 px-4">
-        <p>Trips</p>
+        <TripsView />
       </div>
     </Route>
     <Route path="/stations/*">
