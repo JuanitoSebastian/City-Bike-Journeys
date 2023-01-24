@@ -52,10 +52,15 @@ export interface DropDownDetails {
   label: string;
 };
 
-export interface StationsQueryParameters {
+interface QueryParameters {
   limit: number;
   offset: number;
   language: DropDownOption;
+}
+
+export interface StationsQueryParameters extends QueryParameters {
   orderBy: DropDownOption;
   order: DropDownOption;
 };
+
+export interface TripsQueryParameters extends QueryParameters {};
