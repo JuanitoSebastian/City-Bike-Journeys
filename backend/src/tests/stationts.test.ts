@@ -103,16 +103,16 @@ describe('Stations endpoint', () => {
   describe('Statistics', () => {
     test('counts calculated correctly', async () => {
       const statsStation001 = await api.get('/api/station/001/statistics');
-      expect(statsStation001.body.data.arrivalsCount).toEqual('1');
-      expect(statsStation001.body.data.departuresCount).toEqual('2');
+      expect(statsStation001.body.data.arrivalsCount).toEqual(1);
+      expect(statsStation001.body.data.departuresCount).toEqual(2);
 
       const statsStation036 = await api.get('/api/station/036/statistics');
-      expect(statsStation036.body.data.arrivalsCount).toEqual('2');
-      expect(statsStation036.body.data.departuresCount).toEqual('1');
+      expect(statsStation036.body.data.arrivalsCount).toEqual(2);
+      expect(statsStation036.body.data.departuresCount).toEqual(1);
 
       const statsStation043 = await api.get('/api/station/043/statistics');
-      expect(statsStation043.body.data.arrivalsCount).toEqual('2');
-      expect(statsStation043.body.data.departuresCount).toEqual('2');
+      expect(statsStation043.body.data.arrivalsCount).toEqual(2);
+      expect(statsStation043.body.data.departuresCount).toEqual(2);
     });
 
     test('averages calculated correctly', async () => {
@@ -137,9 +137,9 @@ describe('Stations endpoint', () => {
 
     test('filtering by date returns statistics from correct timerange', async () => {
       const statsStation043 = await api.get('/api/station/043/statistics?start_date=2021-05-31T22:00:00&end_date=2021-06-01T11:00:00');
-      expect(statsStation043.body.data.arrivalsCount).toEqual('0');
+      expect(statsStation043.body.data.arrivalsCount).toEqual(0);
       expect(statsStation043.body.data.arrivalsAverageDistance).toBeNull();
-      expect(statsStation043.body.data.departuresCount).toEqual('2');
+      expect(statsStation043.body.data.departuresCount).toEqual(2);
       // (2043 + 5366) / 2 = 3704.5
       expect(statsStation043.body.data.departuresAverageDistance).toEqual(3704.5);
     });

@@ -69,8 +69,8 @@ const getStationTripStatistics = async (stationStatisticsRequest: StationStatist
 
   const trips = await Trip.findOne({
     attributes: [
-      [Sequelize.literal(`COUNT("id") FILTER (WHERE "endStationId" = '${stationStatisticsRequest.id}')`), 'arrivalsCount'],
-      [Sequelize.literal(`COUNT("id") FILTER (WHERE "startStationId" = '${stationStatisticsRequest.id}')`), 'departuresCount'],
+      [Sequelize.literal(`COUNT("id") FILTER (WHERE "endStationId" = '${stationStatisticsRequest.id}')::int`), 'arrivalsCount'],
+      [Sequelize.literal(`COUNT("id") FILTER (WHERE "startStationId" = '${stationStatisticsRequest.id}')::int`), 'departuresCount'],
       [Sequelize.literal(`AVG("distanceMeters") FILTER (WHERE "endStationId" = '${stationStatisticsRequest.id}')`), 'arrivalsAverageDistance'],
       [Sequelize.literal(`AVG("distanceMeters") FILTER (WHERE "startStationId" = '${stationStatisticsRequest.id}')`), 'departuresAverageDistance'],
     ],
