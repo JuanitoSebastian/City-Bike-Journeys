@@ -22,7 +22,9 @@
         </div>
       </Route>
       <Route path=":id" let:params>
-        <StationView stationId={params.id} />
+        <div class="container mx-auto my-4 px-4">
+          <StationView stationId={params.id} />
+        </div>
       </Route>
     </Route>
     <Route path="/about">
