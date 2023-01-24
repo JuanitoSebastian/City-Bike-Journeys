@@ -1,4 +1,4 @@
-import type { ApiReponse, ApiResponsePagingDetails, PagingDetails, Station, StationStatistics } from './interfaces';
+import type { ApiReponse, ApiResponsePagingDetails, PagingDetails, Station, StationStatistics, Trip } from './interfaces';
 
 const isArray = (array: unknown): array is [] => {
   return Array.isArray(array);
@@ -136,4 +136,37 @@ export const parseApiResponsePagingDetails = (apiresponsePagingDetails: unknown)
   }
 
   return apiresponsePagingDetails;
+};
+
+const isTrip = (trip: unknown): trip is Trip => {
+  return typeof trip === 'object' && trip !== null &&
+    'id' in trip && typeof trip.id === 'number' &&
+    'startTime' in trip && typeof trip.startTime === 'string' && isDate(trip.startTime) &&
+    'endTime' in trip && typeof trip.endTime === 'string' && isDate(trip.endTime) &&
+    'startStation' in trip && typeof trip.startStation === 'string' &&
+    'endStation' in trip && typeof trip.endStation === 'string' &&
+    'distanceMeters' in trip && typeof trip.distanceMeters === 'number' &&
+    'durationSeconds' in trip && typeof trip.durationSeconds === 'number';
+};
+
+export const parseTrip = (trip: unknown): Trip => {
+  if (!trip || !isTrip(trip)) {
+    throw new Error('Incorrect type, not Trip');
+  }
+
+  return trip;
+};
+
+export const parseTripArray = (tripArray: unknown): Trip[] => {
+  if (!tripArray || !isArray(tripArray)) {
+    throw new Error('Incorrect type, not Array');
+  }
+
+  for (const trip of tripArray) {
+    if (!trip || !isTrip(trip)) {
+      throw new Error('Incorrect type, not Station');
+    }
+  }
+  
+  return tripArray;
 };

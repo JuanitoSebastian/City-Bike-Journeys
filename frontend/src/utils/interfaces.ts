@@ -63,4 +63,4 @@ export interface StationsQueryParameters extends QueryParameters {
   order: DropDownOption;
 };
 
-export interface TripsQueryParameters extends QueryParameters {};
+export type TripsQueryParameters = QueryParameters;
