@@ -10,10 +10,13 @@
   import type { Station } from '../../utils/interfaces';
   import StationViewHeader from './StationViewHeader.svelte';
   import StationsViewStatistics from './StationViewStatistics.svelte';
+  import { useFocus } from 'svelte-navigator';
 
   export let stationId: string;
   let station: Station | undefined = undefined;
   let loading: boolean = true;
+
+  const focus = useFocus();
 
   onMount(async () => {
     station = await StationService.getStation(stationId);
@@ -26,7 +29,7 @@
 
 {#if !loading && station && station.statistics}
   <div class="flex flex-col gap-4">
-    <StationViewHeader {station} />
+    <StationViewHeader {station} {focus} />
     <StationsViewStatistics {station} />
   </div>
 {:else if !loading}

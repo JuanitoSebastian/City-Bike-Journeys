@@ -7,7 +7,10 @@
   import { Link } from 'svelte-navigator';
   import Icon from '../Icon.svelte';
   import type { Station } from '../../utils/interfaces';
+  import type { LocalAction } from 'svelte-navigator/types/SvelteInternal';
+  
   export let station: Station;
+  export let focus: LocalAction<undefined>;
 </script>
 
 <div class="flex-col flex gap-2">
@@ -20,7 +23,7 @@
     </div>
   </Link>
   <div class="flex flex-col">
-    <h1 class="text-4xl">{station.id} {station.name}</h1>
+    <h2 use:focus class="text-4xl">{station.id} {station.name}</h2>
     <p class="font-light">{station.address}, {station.city}</p>
   </div>
 </div>
