@@ -15,13 +15,13 @@
 
 <tr
   on:click={() => navigate(`/stations/${station.id}`)}
-  class="group h-12 border-t border-gray-100 hover:bg-gray-50 cursor-pointer transition-all duration-75"
+  class="group h-12 border-t border-gray-100 hover:bg-blue-50 cursor-pointer transition-all duration-75"
 >
-  <td>{station.id}</td>
-  <td>{station.name}</td>
-  <td>{station.city}</td>
-  <td>{station.maximumCapacity}</td>
-  <td>
+  <td class="px-4">{station.id}</td>
+  <td class="px-4">{station.name}</td>
+  <td class="px-4">{station.city}</td>
+  <td class="px-4">{station.maximumCapacity}</td>
+  <td class="px-4">
     <div
       class="flex flex-row gap-2 items-center text-sm text-gray-600 group-hover:text-blue-600 transition-all duration-75 group-hover:translate-x-1"
     >

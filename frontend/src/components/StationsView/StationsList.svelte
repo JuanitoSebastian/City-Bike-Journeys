@@ -4,7 +4,7 @@
   import StationListHead from './StationListHead.svelte';
 </script>
 
-<div class="bg-white px-4 py-2 rounded-lg">
+<div class="bg-white rounded-lg overflow-hidden">
   {#if $stations !== undefined}
     <table class="table-fixed w-full">
       <StationListHead />
