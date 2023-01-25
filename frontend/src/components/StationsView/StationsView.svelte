@@ -19,6 +19,7 @@
 </script>
 
 <div class="flex flex-col gap-4">
+  <h2 class="text-4xl">Stations</h2>
   <StationsListSorting />
   <StationsList />
   <Paging paging={$stationsPaging} onChange={setPage} />
