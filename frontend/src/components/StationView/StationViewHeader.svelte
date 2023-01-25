@@ -8,7 +8,7 @@
   import Icon from '../Icon.svelte';
   import type { Station } from '../../utils/interfaces';
   import type { LocalAction } from 'svelte-navigator/types/SvelteInternal';
-  
+
   export let station: Station;
   export let focus: LocalAction<undefined>;
 </script>
@@ -22,8 +22,6 @@
       <p class="text-sm uppercase">Stations</p>
     </div>
   </Link>
-  <div class="flex flex-col">
-    <h2 use:focus class="text-4xl">{station.id} {station.name}</h2>
-    <p class="font-light">{station.address}, {station.city}</p>
-  </div>
+  <h2 use:focus class="text-4xl">{station.id} {station.name}</h2>
+  <p class="font-light">{station.address}, {station.city}</p>
 </div>
