@@ -3,6 +3,7 @@
   import TripService from '../../services/trips';
   import TripsList from './TripsList.svelte';
   import Paging from '../Paging.svelte';
+  import Icon from '../Icon.svelte';
 
   let loading: boolean = false;
 
@@ -17,13 +18,16 @@
   });
 
   const setPage = (value: number) => {
-    if (loading) { return; }
+    if (loading) {
+      return;
+    }
     const offset = value * 20;
     tripsQueryParameters.set({ ...$tripsQueryParameters, offset });
   };
 </script>
 
 <div class="flex flex-col gap-4">
+  <h2 class="text-4xl">Trips</h2>
   <TripsList />
   <Paging paging={$tripsPaging} onChange={setPage} />
 </div>
