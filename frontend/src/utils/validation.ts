@@ -99,8 +99,8 @@ const isStationStatistics = (stationStatistics: unknown): stationStatistics is S
   return typeof stationStatistics === 'object' && stationStatistics !== null &&
   'arrivalsCount' in stationStatistics && isNumber(stationStatistics.arrivalsCount) &&
   'departuresCount' in stationStatistics && isNumber(stationStatistics.departuresCount) &&
-  'arrivalsAverageDistance' in stationStatistics && isNumber(stationStatistics.arrivalsAverageDistance) &&
-  'departuresAverageDistance' in stationStatistics && isNumber(stationStatistics.departuresAverageDistance);
+  'arrivalsAverageDistance' in stationStatistics && (stationStatistics.arrivalsAverageDistance === null || isNumber(stationStatistics.arrivalsAverageDistance)) &&
+  'departuresAverageDistance' in stationStatistics && (stationStatistics.arrivalsAverageDistance === null || isNumber(stationStatistics.departuresAverageDistance));
 };
 
 export const parseStationStatistics = (stationStatistics: unknown): StationStatistics => {

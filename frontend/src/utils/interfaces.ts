@@ -13,8 +13,8 @@ export interface Station {
 export interface StationStatistics {
   arrivalsCount: number;
   departuresCount: number;
-  arrivalsAverageDistance: number;
-  departuresAverageDistance: number;
+  arrivalsAverageDistance: number | null;
+  departuresAverageDistance: number | null;
 };
 
 export interface Trip {
