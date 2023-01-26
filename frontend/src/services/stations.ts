@@ -37,11 +37,13 @@ const getStation = async (stationId: string): Promise<Station | undefined> => {
 /**
  * Fetch StationStatistics with a given stationId from API.
  * @param stationId: Id of station
+ * @param startDate: Optional date for filtering. Start of range.
+ * @param endDate: Optional date for filtering. End of range.
  * @returns On success StationStatistics object. On fail undefined.
  */
-const getStationStatistics = async (stationId: string): Promise<StationStatistics | undefined> => {
+const getStationStatistics = async (stationId: string, startDate: string|undefined, endDate: string|undefined): Promise<StationStatistics | undefined> => {
   try {
-    const apiResponse = await axios(`${baseUrl}/${stationId}/statistics`);
+    const apiResponse = await axios(`${baseUrl}/${stationId}/statistics`, { params: { start_date: startDate, end_date: endDate }});
     const parsedApiResponse = parseApiResponse(apiResponse.data);
     const stationStatistics = parseStationStatistics(parsedApiResponse.data);
     return stationStatistics;
