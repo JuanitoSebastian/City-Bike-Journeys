@@ -23,8 +23,8 @@ GET /api/station?limit={{limit}}&offset={{offset}}&language={{language}}&order_b
             "address": "Meritori 1",
             "city": "Helsinki",
             "maximumCapacity": 30,
-            "latitude": "24.950211",
-            "longitude": "60.155370"
+            "latitude": 24.950211,
+            "longitude": 60.155370
         },
         {
             "id": "002",
@@ -32,8 +32,8 @@ GET /api/station?limit={{limit}}&offset={{offset}}&language={{language}}&order_b
             "address": "Laivasillankatu 14",
             "city": "Helsinki",
             "maximumCapacity": 12,
-            "latitude": "24.956510",
-            "longitude": "60.160989"
+            "latitude": 24.956510,
+            "longitude": 60.160989
         }
     ],
     "paging": {
@@ -63,8 +63,8 @@ GET /api/station/{{id}}?language={{language}}
         "address": "Råholmsvägen",
         "city": "Helsingfors",
         "maximumCapacity": 16,
-        "latitude": "24.911058",
-        "longitude": "60.183126"
+        "latitude": 24.911058,
+        "longitude": 60.183126
     }
 }
 ```
@@ -80,13 +80,16 @@ GET /api/station/{{id}}/statistics?start_date={{start_date}}&end_date={{end_date
 | end_date   | date   | no        | -       | Filter by date, end of range.           |
 
 **Example response**
+If the request filters by date, the dates are included in the response.
 ```
 {
     "data": {
-        "arrivalsCount": "2496",
-        "departuresCount": "2522",
-        "arrivalsAverageDistance": 2554.9294871794873,
-        "departuresAverageDistance": 2486.403647898493
+        "arrivalsCount": 121,
+        "departuresCount": 124,
+        "arrivalsAverageDistance": 2736.809917355372,
+        "departuresAverageDistance": 2837.4112903225805,
+        "startDate": "2021-06-12T23:57:24",
+        "endDate": "2021-06-14T23:57:25"
     }
 }
 ```
