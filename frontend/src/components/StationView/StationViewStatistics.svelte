@@ -28,13 +28,15 @@
     label="Arrivals"
     statistic={`${formatBigNumberToString(station.statistics.arrivalsCount)}`}
   />
-  {#if station.statistics.arrivalsAverageDistance !== null && station.statistics.departuresAverageDistance}
+  {#if station.statistics.departuresAverageDistance !== null}
     <StationStatsCard
       label="Departures Avg. Distance"
       statistic={`${formatMeters(
         station.statistics.departuresAverageDistance
       )}`}
     />
+  {/if}
+  {#if station.statistics.arrivalsAverageDistance !== null}
     <StationStatsCard
       label="Arrival Avg. Distance"
       statistic={`${formatMeters(station.statistics.arrivalsAverageDistance)}`}
