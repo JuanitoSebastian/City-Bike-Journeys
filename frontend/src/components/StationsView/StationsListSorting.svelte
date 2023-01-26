@@ -25,13 +25,13 @@
   <DropDown
     dropDownDetails={{ id: 'order_by', label: 'Order by' }}
     options={orderByOptions}
-    bind:selected={$stationsQueryParameters.orderBy}
+    selected={$stationsQueryParameters.orderBy}
     onChange={setOrderBy}
   />
   <DropDown
     dropDownDetails={{ id: 'order', label: 'Order' }}
     options={orderOptions}
-    bind:selected={$stationsQueryParameters.order}
+    selected={$stationsQueryParameters.order}
     onChange={setOrder}
   />
 </div>
