@@ -8,6 +8,7 @@ import { Language } from '../interfaces/StringInLanguage';
 import StationsService from '../services/stations';
 import TripsService from '../services/trips';
 import { validateListRequest, validateStationRequest, validateStationStatisticsRequest } from '../validation/requests';
+import { parseStationResponseData, parseStationResponseDataArray, parseStationStatisticsResponseData } from '../validation/responses';
 
 const router = express.Router();
 
@@ -31,7 +32,9 @@ router.get('/', (async (request: Request, response: Response) => {
     pages: Math.ceil(stationsCount / listRequest.limit)
   };
 
-  response.json({ data: stations, paging });
+  const stationsResponse = parseStationResponseDataArray(stations);
+
+  response.json({ data: stationsResponse, paging });
 }) as RequestHandler);
 
 /**
@@ -52,7 +55,8 @@ router.get('/:id', (async (request: Request, response: Response, next: NextFunct
       return;
     }
 
-    response.json({ data: station });
+    const stationResponse = parseStationResponseData(station);
+    response.json({ data: stationResponse });
   } catch (error) {
     next(error);
   }
@@ -77,9 +81,14 @@ router.get('/:id/statistics', (async (request: Request, response: Response, next
       return;
     }
 
-
     const tripsStatistics = await TripsService.getStationTripStatistics(stationStatisticsRequest);
-    response.json({ data: tripsStatistics });
+    const stationSatisticsResponse = parseStationStatisticsResponseData(tripsStatistics?.dataValues);
+
+    if (stationStatisticsRequest.startDate && stationStatisticsRequest.endDate) {
+      response.json({ data: { ...stationSatisticsResponse, startDate: stationStatisticsRequest.startDate, endDate: stationStatisticsRequest.endDate } });
+    } else {
+      response.json({ data: stationSatisticsResponse });
+    }
   } catch (error) {
     next(error);
   }

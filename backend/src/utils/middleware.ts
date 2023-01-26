@@ -12,6 +12,9 @@ const errorHandler = (error: Error, _request: Request, response: Response, next:
 
     case 'ValidationError':
       return response.status(400).json({ error: error.message });
+
+    case 'InternalValidationError':
+      return response.status(500).json({ error: error.message });
   }
 
   next(error);

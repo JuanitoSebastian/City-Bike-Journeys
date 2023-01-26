@@ -2,6 +2,7 @@ import express, { Response, Request } from 'express';
 import { RequestHandler } from 'express';
 import TripsService from '../services/trips';
 import { validateTripListRequest } from '../validation/requests';
+import { parseTripResponseDataArray } from '../validation/responses';
 
 const router = express.Router();
 
@@ -15,8 +16,9 @@ router.get('/', (async (request: Request, response: Response) => {
     page: Math.ceil(tripListRequest.offset / tripListRequest.limit),
     pages: Math.ceil(tripsCount / tripListRequest.limit)
   };
+  const tripsResponseData = parseTripResponseDataArray(trips);
 
-  response.json({ data: trips, paging });
+  response.json({ data: tripsResponseData, paging });
 }) as RequestHandler);
 
 export default router;
