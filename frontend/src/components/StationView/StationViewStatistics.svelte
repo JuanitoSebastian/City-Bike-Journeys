@@ -28,12 +28,16 @@
     label="Arrivals"
     statistic={`${formatBigNumberToString(station.statistics.arrivalsCount)}`}
   />
-  <StationStatsCard
-    label="Departures Avg. Distance"
-    statistic={`${formatMeters(station.statistics.departuresAverageDistance)}`}
-  />
-  <StationStatsCard
-    label="Arrival Avg. Distance"
-    statistic={`${formatMeters(station.statistics.arrivalsAverageDistance)}`}
-  />
+  {#if station.statistics.arrivalsAverageDistance !== null && station.statistics.departuresAverageDistance}
+    <StationStatsCard
+      label="Departures Avg. Distance"
+      statistic={`${formatMeters(
+        station.statistics.departuresAverageDistance
+      )}`}
+    />
+    <StationStatsCard
+      label="Arrival Avg. Distance"
+      statistic={`${formatMeters(station.statistics.arrivalsAverageDistance)}`}
+    />
+  {/if}
 </div>
