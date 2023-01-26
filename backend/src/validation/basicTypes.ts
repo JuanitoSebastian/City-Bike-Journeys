@@ -18,7 +18,7 @@ export const parseStringArray = (unkownArray: unknown): string[] => {
   return stringArray;
 };
 
-const isArray = (array: unknown): array is [] => {
+export const isArray = (array: unknown): array is [] => {
   return Array.isArray(array);
 };
 
@@ -34,7 +34,7 @@ export const parseDate = (date: unknown): string => {
   return date;
 };
 
-const isNumber = (num: unknown): num is number => {
+export const isNumber = (num: unknown): num is number => {
   return typeof num === 'number' || num instanceof Number;
 };
 
