@@ -1,9 +1,9 @@
-import City from '../models/city';
-import CityName from '../models/cityName';
-import Station from '../models/station';
-import StationAddress from '../models/stationAddress';
-import StationName from '../models/stationName';
-import Trip from '../models/trip';
+import City from '../models/City';
+import CityName from '../models/CityName';
+import Station from '../models/Station';
+import StationAddress from '../models/StationAddress';
+import StationName from '../models/StationName';
+import Trip from '../models/Trip';
 
 const seedTestDataToDb = async () => {
   const city = await City.create({

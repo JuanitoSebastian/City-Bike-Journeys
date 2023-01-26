@@ -1,8 +1,8 @@
 import { Table, Column, Model, DataType, HasMany, ForeignKey, BelongsTo, PrimaryKey } from 'sequelize-typescript';
-import StationAddress from './stationAddress';
-import StationName from './stationName';
-import City from './city';
-import Trip from './trip';
+import StationAddress from './StationAddress';
+import StationName from './StationName';
+import City from './City';
+import Trip from './Trip';
 
 @Table({ timestamps: false })
 class Station extends Model {

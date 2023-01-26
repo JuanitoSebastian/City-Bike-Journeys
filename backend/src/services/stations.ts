@@ -3,11 +3,11 @@ import StationListRequest from '../interfaces/StationListRequest';
 import StationRequest from '../interfaces/StationRequest';
 import { Language } from '../interfaces/StringInLanguage';
 
-import City from '../models/city';
-import CityName from '../models/cityName';
-import Station from '../models/station';
-import StationAddress from '../models/stationAddress';
-import StationName from '../models/stationName';
+import City from '../models/City';
+import CityName from '../models/CityName';
+import Station from '../models/Station';
+import StationAddress from '../models/StationAddress';
+import StationName from '../models/StationName';
 
 /**
  * Fetches multiple stations from DB. Language affects name, address and city returned.

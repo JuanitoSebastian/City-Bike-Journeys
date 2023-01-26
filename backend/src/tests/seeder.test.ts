@@ -1,11 +1,11 @@
 import { sequelize } from '../services/db';
-import Station from '../models/station';
-import Trip from '../models/trip';
+import Station from '../models/Station';
+import Trip from '../models/Trip';
 import { exportForTesting as seeder } from '../utils/seeder';
-import City from '../models/city';
-import StationName from '../models/stationName';
-import StationAddress from '../models/stationAddress';
-import CityName from '../models/cityName';
+import City from '../models/City';
+import StationName from '../models/StationName';
+import StationAddress from '../models/StationAddress';
+import CityName from '../models/CityName';
 
 beforeAll(async () => {
   await sequelize.sync();

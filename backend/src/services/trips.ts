@@ -3,9 +3,9 @@ import { Sequelize } from 'sequelize-typescript';
 
 import StationStatisticsRequest from '../interfaces/StationStatisticsRequest';
 import TripListRequest from '../interfaces/TripListRequest';
-import Station from '../models/station';
-import StationName from '../models/stationName';
-import Trip from '../models/trip';
+import Station from '../models/Station';
+import StationName from '../models/StationName';
+import Trip from '../models/Trip';
 
 /**
  * Fetches multiple trips from DB

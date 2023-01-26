@@ -1,5 +1,5 @@
 import { Table, Column, Model, Unique, ForeignKey, BelongsTo, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
-import City from './city';
+import City from './City';
 
 @Table({ timestamps: false })
 class CityName extends Model {

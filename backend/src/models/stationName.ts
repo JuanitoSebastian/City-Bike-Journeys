@@ -1,5 +1,5 @@
 import { Table, Column, Model, ForeignKey, PrimaryKey, AutoIncrement, BelongsTo } from 'sequelize-typescript';
-import Station from './station';
+import Station from './Station';
 
 @Table({ timestamps: false })
 class StationName extends Model {
