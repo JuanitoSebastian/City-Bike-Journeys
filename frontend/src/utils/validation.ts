@@ -49,9 +49,9 @@ export const parseNumber = (numberToParse: unknown): number => {
 
 const isPagingDetails = (pagingDetails: unknown): pagingDetails is PagingDetails => {
   return typeof pagingDetails === 'object' && pagingDetails !== null &&
-  'total' in pagingDetails && typeof pagingDetails.total === 'number' &&
-  'page' in pagingDetails && typeof pagingDetails.page === 'number' &&
-  'pages' in pagingDetails && typeof pagingDetails.pages === 'number';
+  'total' in pagingDetails && isNumber(pagingDetails.total) &&
+  'page' in pagingDetails && isNumber(pagingDetails.page) &&
+  'pages' in pagingDetails && isNumber(pagingDetails.pages);
 };
 
 export const parsePagingDetails = (pagingDetails: unknown): PagingDetails => {
@@ -64,13 +64,13 @@ export const parsePagingDetails = (pagingDetails: unknown): PagingDetails => {
 
 const isStation = (station: unknown): station is Station => {
   return typeof station === 'object' && station !== null &&
-  'id' in station && typeof station.id === 'string' &&
-  'name' in station && typeof station.name === 'string' &&
-  'address' in station && typeof station.address === 'string' &&
-  'city' in station && typeof station.city === 'string' &&
-  'maximumCapacity' in station && typeof station.maximumCapacity === 'number' &&
-  'latitude' in station && typeof station.latitude === 'number' &&
-  'longitude' in station && typeof station.longitude === 'number';
+  'id' in station && isString(station.id) &&
+  'name' in station && isString(station.name) &&
+  'address' in station && isString(station.address) &&
+  'city' in station && isString(station.city) &&
+  'maximumCapacity' in station && isNumber(station.maximumCapacity) &&
+  'latitude' in station && isNumber(station.latitude) &&
+  'longitude' in station && isNumber(station.longitude);
 };
 
 export const parseStation = (station: unknown): Station => {
@@ -97,10 +97,10 @@ export const parseStationArray = (stationArray: unknown): Station[] => {
 
 const isStationStatistics = (stationStatistics: unknown): stationStatistics is StationStatistics => {
   return typeof stationStatistics === 'object' && stationStatistics !== null &&
-  'arrivalsCount' in stationStatistics && typeof stationStatistics.arrivalsCount === 'number' &&
-  'departuresCount' in stationStatistics && typeof stationStatistics.departuresCount === 'number' &&
-  'arrivalsAverageDistance' in stationStatistics && typeof stationStatistics.arrivalsAverageDistance === 'number' &&
-  'departuresAverageDistance' in stationStatistics && typeof stationStatistics.departuresAverageDistance === 'number';
+  'arrivalsCount' in stationStatistics && isNumber(stationStatistics.arrivalsCount) &&
+  'departuresCount' in stationStatistics && isNumber(stationStatistics.departuresCount) &&
+  'arrivalsAverageDistance' in stationStatistics && isNumber(stationStatistics.arrivalsAverageDistance) &&
+  'departuresAverageDistance' in stationStatistics && isNumber(stationStatistics.departuresAverageDistance);
 };
 
 export const parseStationStatistics = (stationStatistics: unknown): StationStatistics => {
@@ -141,12 +141,12 @@ export const parseApiResponsePagingDetails = (apiresponsePagingDetails: unknown)
 const isTrip = (trip: unknown): trip is Trip => {
   return typeof trip === 'object' && trip !== null &&
     'id' in trip && typeof trip.id === 'number' &&
-    'startTime' in trip && typeof trip.startTime === 'string' && isDate(trip.startTime) &&
-    'endTime' in trip && typeof trip.endTime === 'string' && isDate(trip.endTime) &&
-    'startStation' in trip && typeof trip.startStation === 'string' &&
-    'endStation' in trip && typeof trip.endStation === 'string' &&
-    'distanceMeters' in trip && typeof trip.distanceMeters === 'number' &&
-    'durationSeconds' in trip && typeof trip.durationSeconds === 'number';
+    'startTime' in trip && isString(trip.startTime) && isDate(trip.startTime) &&
+    'endTime' in trip && isString(trip.endTime) && isDate(trip.endTime) &&
+    'startStation' in trip && isString(trip.startStation) &&
+    'endStation' in trip && isString(trip.endStation) &&
+    'distanceMeters' in trip && isNumber(trip.distanceMeters) &&
+    'durationSeconds' in trip && isNumber(trip.durationSeconds);
 };
 
 export const parseTrip = (trip: unknown): Trip => {
