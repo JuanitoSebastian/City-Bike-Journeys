@@ -5,34 +5,69 @@
     - stationId: Id of station to view.
 -->
 <script lang="ts">
-  import StationService from '../../services/stations';
+  import { useFocus } from 'svelte-navigator';
   import { onMount } from 'svelte';
+
+  import StationService from '../../services/stations';
   import type { Station } from '../../utils/interfaces';
   import StationViewHeader from './StationViewHeader.svelte';
   import StationsViewStatistics from './StationViewStatistics.svelte';
-  import { useFocus } from 'svelte-navigator';
+  import Divider from '../Divider.svelte';
+  import StationViewStatisticsFilter from './StationViewStatisticsFilter.svelte';
 
   export let stationId: string;
   let station: Station | undefined = undefined;
-  let loading: boolean = true;
+  let initialLoading: boolean = true;
+  let statsFilterStartDate: string | undefined = undefined;
+  let statsFilterEndDate: string | undefined = undefined;
 
   const focus = useFocus();
 
   onMount(async () => {
     station = await StationService.getStation(stationId);
     if (station) {
-      station.statistics = await StationService.getStationStatistics(stationId);
+      station.statistics = await StationService.getStationStatistics(
+        stationId,
+        statsFilterStartDate,
+        statsFilterEndDate
+      );
     }
-    loading = false;
+    initialLoading = false;
   });
+
+  const updateStatistics = async () => {
+    if (
+      statsFilterStartDate &&
+      statsFilterEndDate &&
+      new Date(statsFilterStartDate) < new Date(statsFilterEndDate)
+    ) {
+      station = {
+        ...station,
+        statistics: await StationService.getStationStatistics(
+          stationId,
+          statsFilterStartDate,
+          statsFilterEndDate
+        ),
+      };
+    }
+  };
+
+  $: statsFilterStartDate, statsFilterEndDate, updateStatistics();
 </script>
 
-{#if !loading && station && station.statistics}
+{#if !initialLoading && station && station.statistics}
   <div class="flex flex-col gap-4">
     <StationViewHeader {station} {focus} />
-    <StationsViewStatistics {station} />
+    <Divider label="Statistics" />
+    <StationViewStatisticsFilter
+      bind:statsFilterStartDate
+      bind:statsFilterEndDate
+    />
+    <StationsViewStatistics
+      {station}
+    />
   </div>
-{:else if !loading}
+{:else if !initialLoading}
   <div class="flex flex-col gap-4 justify-center items-center h-screen">
     <p>Station not found</p>
   </div>

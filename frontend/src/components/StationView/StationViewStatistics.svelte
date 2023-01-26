@@ -6,14 +6,15 @@
 -->
 <script lang="ts">
   import type { Station } from '../../utils/interfaces';
-  import Divider from '../Divider.svelte';
   import StationStatsCard from './StationStatsCard.svelte';
-  import { formatBigNumberToString, formatMeters } from '../../utils/numberFormatter';
+  import {
+    formatBigNumberToString,
+    formatMeters,
+  } from '../../utils/numberFormatter';
 
   export let station: Station;
 </script>
 
-<Divider label="Statistics" />
 <div class="flex flex-row gap-2 items-start justify-start flex-wrap">
   <StationStatsCard
     label="Capacity"
