@@ -41,6 +41,12 @@ export const initDatabase = async () => {
   if (await checkIfSeedingRequired()) {
     await sequelize.drop({ cascade: true });
     await sequelize.sync();
-    await seedDb();
+
+    try {
+      await seedDb();
+    } catch (error) {
+      console.log(`Failed to seed DB: ${error}`);
+    }
+    
   }
 };
