@@ -1,10 +1,13 @@
-import path from 'path';
 import { readFile } from 'fs';
+import Downloader from 'nodejs-file-downloader';
 
 import TripData from '../interfaces/TripData';
 import StringInLanguage from '../interfaces/StringInLanguage';
 import StationData from '../interfaces/StationData';
 import { parseStationDataFromCsv, parseTripDataFormCsv, validateTrip } from '../validation/csvData';
+import { DEFAULT_DIRECTORY_FOR_SEEDING_DATA } from './constants';
+import SeedingsService from '../services/seedings';
+import SeedingError from '../errors/seedingError';
 
 import City from '../models/City';
 import CityName from '../models/CityName';
@@ -13,7 +16,6 @@ import StationName from '../models/StationName';
 import StationAddress from '../models/StationAddress';
 import Trip from '../models/Trip';
 import { Op } from 'sequelize';
-import SeedingsService from '../services/seedings';
 
 /**
  * Reads a given .csv file and returns the contents in an array. 
@@ -152,23 +154,52 @@ const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
 };
 
 /**
- * Seeds the database with data from .csv files. Files used:
- * - /data/stations.csv
- * - /data/2021-05.csv
- * - /data/2021-06.csv
- * - /data/2021-07.csv
+ * Downloads given files files to data directory
+ * @param urlsToFiles A list of urls of files to download
+ * @returns Returns a list containing the paths of the downloaded files
+ */
+const downloadFiles = async (urlsToFiles: string[]): Promise<string[]> => {
+  const pathsToFiles: string[] = [];
+  for (const urlToFile of urlsToFiles) {
+    const downloader = new Downloader({
+      url: urlToFile,
+      directory: DEFAULT_DIRECTORY_FOR_SEEDING_DATA
+    });
+
+    try {
+      const downloadReport = await downloader.download();
+      if (downloadReport.downloadStatus === 'COMPLETE' && downloadReport.filePath) {
+        pathsToFiles.push(downloadReport.filePath);
+      }
+    } catch {
+      console.log(`Error downloading file ${urlToFile}`);
+    }
+  }
+  return pathsToFiles;
+};
+
+const stationsUrls = ['https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv'];
+const tripsUrls = [
+  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv',
+  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv',
+  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv'
+];
+
+/**
+ * Seeds the database with data from downloaded .csv files.
+ * @throws {SeedingError} If no stations are downloaded
  */
 export const seedDb = async () => {
   const seeding = await SeedingsService.createNewSeeding();
 
-  const stationsDataRaw = await readCsvFile(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
-  const addedStationIds = await addStations(stationsDataRaw);
+  const stationsPaths = await downloadFiles(stationsUrls);
+  if (stationsPaths.length === 0) {
+    throw new SeedingError('Seeding data has to include stations');
+  }
+  const tripsPaths = await downloadFiles(tripsUrls);
 
-  const tripsPaths = [
-    path.join(__dirname, '..', '..', 'data', '2021-05.csv'),
-    path.join(__dirname, '..', '..', 'data', '2021-06.csv'),
-    path.join(__dirname, '..', '..', 'data', '2021-07.csv')
-  ];
+  const stationsDataRaw = await readCsvFile(stationsPaths[0]);
+  const addedStationIds = await addStations(stationsDataRaw);
 
   for (const pathToTrips of tripsPaths) {
     const rawTripsData = await readCsvFile(pathToTrips);
@@ -177,6 +208,7 @@ export const seedDb = async () => {
 
   seeding.finished = new Date();
   await seeding.save();
+
 };
 
 export const exportForTesting = {
