@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import ValidationError from './validationError';
+import ValidationError from '../errors/ValidationError';
 
 import StationListRequest, { StationListOrder, StationListSortBy } from '../interfaces/StationListRequest';
 import StationRequest from '../interfaces/StationRequest';

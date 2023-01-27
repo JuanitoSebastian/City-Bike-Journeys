@@ -3,7 +3,7 @@ import StationResponseData from '../interfaces/StationResponseData';
 import StationStatisticsResponseData from '../interfaces/StationStatisticsResponseData';
 import TripResponseData from '../interfaces/TripResponseData';
 import { isArray, isNumber, isString } from './basicTypes';
-import InternalValidationError from './internalValidationError';
+import InternalValidationError from '../errors/InternalValidationError';
 
 const isStationResponseData = (stationResponseData: unknown): stationResponseData is StationResponseData => {
   return typeof stationResponseData === 'object' && stationResponseData !== null &&
