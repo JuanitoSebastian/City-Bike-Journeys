@@ -162,3 +162,28 @@ GET /api/trip?limit={{limit}}&offset={{offset}}&language={{language}}
     }
 }
 ```
+
+# Seeding
+```
+GET /api/seeding
+```
+This endpoint returns the timestamp of when the database was seeded. If database has not been seeded, a null value is returned.
+
+Database seeded:
+
+```
+{
+    "data": {
+        "latestSeeding": "2023-01-27T15:05:57.124Z"
+    }
+}
+```
+
+Database not seeded:
+```
+{
+    "data": {
+        "latestSeeding": null
+    }
+}
+```
