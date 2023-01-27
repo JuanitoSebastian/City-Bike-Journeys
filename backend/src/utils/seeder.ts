@@ -13,6 +13,7 @@ import StationName from '../models/StationName';
 import StationAddress from '../models/StationAddress';
 import Trip from '../models/Trip';
 import { Op } from 'sequelize';
+import SeedingsService from '../services/seedings';
 
 /**
  * Reads a given .csv file and returns the contents in an array. 
@@ -156,6 +157,8 @@ const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
  * - /data/2021-07.csv
  */
 export const seedDb = async () => {
+  const seeding = await SeedingsService.createNewSeeding();
+
   const stationsDataRaw = readCsvFile(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
   const addedStationIds = await addStations(stationsDataRaw);
 
@@ -169,6 +172,9 @@ export const seedDb = async () => {
     const rawTripsData = readCsvFile(pathToTrips);
     await addTrips(rawTripsData, addedStationIds);
   }
+
+  seeding.finished = new Date();
+  await seeding.save();
 };
 
 export const exportForTesting = {

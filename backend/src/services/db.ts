@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize-typescript';
+
+import SeedingsService from '../services/seedings';
 import sanitizedConfig from '../utils/config';
 import { seedDb } from '../utils/seeder';
-import Station from '../models/Station';
-import Trip from '../models/Trip';
 
 export const sequelize = new Sequelize(sanitizedConfig.POSTGRES_URI,
   {
@@ -15,11 +15,30 @@ export const sequelize = new Sequelize(sanitizedConfig.POSTGRES_URI,
   }
 );
 
+/**
+ * Is DB seeding required? Checks if DB Seedings table has an entry with a
+ * finished date. If app running in test environment, false is returned.
+ */
+const checkIfSeedingRequired = async (): Promise<boolean> => {
+  if (sanitizedConfig.NODE_ENV === 'test') { 
+    return false;
+  }
+
+  const latestSeeding = await SeedingsService.getLatestSeeding();
+
+  if (!latestSeeding) {
+    return true;
+  }
+  
+  return latestSeeding.finished === null ? true : false;
+};
+
+/**
+ * Initializes a connection to DB and initiates seeding process if it needed
+ */
 export const initDatabase = async () => {
-  // TOOD: Improve this check. How to really determine if seeding required?
   await sequelize.sync();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  if (sanitizedConfig.NODE_ENV !== 'test' && (await Station.count() === 0 || await Trip.count() === 0)) {
+  if (await checkIfSeedingRequired()) {
     await sequelize.drop({ cascade: true });
     await sequelize.sync();
     await seedDb();
