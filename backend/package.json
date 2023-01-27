@@ -37,6 +37,7 @@
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.26.0",
     "sequelize-typescript": "^2.1.5",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "yaml": "^2.2.1"
   }
 }
