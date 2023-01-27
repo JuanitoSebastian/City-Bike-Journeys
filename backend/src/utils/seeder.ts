@@ -1,4 +1,4 @@
-import { readFile } from 'fs';
+import { readFile, unlinkSync } from 'fs';
 import Downloader from 'nodejs-file-downloader';
 
 import TripData from '../interfaces/TripData';
@@ -180,6 +180,20 @@ const downloadFiles = async (urlsToFiles: string[]): Promise<string[]> => {
 };
 
 /**
+ * Deletes given files
+ * @param pathsToFiles paths of files to delete
+ */
+const deleteFiles = (pathsToFiles: string[]) => {
+  for (const path of pathsToFiles) {
+    try {
+      unlinkSync(path);
+    } catch {
+      console.log(`Failed to delete file: ${path}`);
+    }
+  }
+};
+
+/**
  * Seeds the database with data from downloaded .csv files.
  * @throws {SeedingError} If no stations are downloaded
  */
@@ -201,6 +215,8 @@ export const seedDb = async () => {
     const rawTripsData = await readCsvFile(pathToTrips);
     await addTrips(rawTripsData, addedStationIds);
   }
+
+  deleteFiles([stationsPaths, tripsPaths].flat());
 
   seeding.finished = new Date();
   await seeding.save();
