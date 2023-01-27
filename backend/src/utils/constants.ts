@@ -5,3 +5,4 @@ export const MIN_TRIP_DURATION_SECONDS = 10;
 export const DEFAULT_QUERY_LIMIT = 20;
 export const DEFAULT_LANGUAGE: Language = Language.English;
 export const DEFAULT_DIRECTORY_FOR_SEEDING_DATA = './data';
+export const DEFAULT_PATH_TO_SEEDING_YAML = './seeding.yml';

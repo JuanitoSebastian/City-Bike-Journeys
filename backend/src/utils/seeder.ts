@@ -4,8 +4,8 @@ import Downloader from 'nodejs-file-downloader';
 import TripData from '../interfaces/TripData';
 import StringInLanguage from '../interfaces/StringInLanguage';
 import StationData from '../interfaces/StationData';
-import { parseStationDataFromCsv, parseTripDataFormCsv, validateTrip } from '../validation/csvData';
-import { DEFAULT_DIRECTORY_FOR_SEEDING_DATA } from './constants';
+import { parseStationDataFromCsv, parseTripDataFormCsv, validateTrip } from '../validation/seeding';
+import { DEFAULT_DIRECTORY_FOR_SEEDING_DATA, DEFAULT_PATH_TO_SEEDING_YAML } from './constants';
 import SeedingsService from '../services/seedings';
 import SeedingError from '../errors/seedingError';
 
@@ -16,6 +16,7 @@ import StationName from '../models/StationName';
 import StationAddress from '../models/StationAddress';
 import Trip from '../models/Trip';
 import { Op } from 'sequelize';
+import { parseSeedingYaml } from './yamlParser';
 
 /**
  * Reads a given .csv file and returns the contents in an array. 
@@ -178,26 +179,21 @@ const downloadFiles = async (urlsToFiles: string[]): Promise<string[]> => {
   return pathsToFiles;
 };
 
-const stationsUrls = ['https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv'];
-const tripsUrls = [
-  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv',
-  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv',
-  'https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv'
-];
-
 /**
  * Seeds the database with data from downloaded .csv files.
  * @throws {SeedingError} If no stations are downloaded
  */
 export const seedDb = async () => {
   const seeding = await SeedingsService.createNewSeeding();
+  const seedingYaml = parseSeedingYaml(DEFAULT_PATH_TO_SEEDING_YAML);
 
-  const stationsPaths = await downloadFiles(stationsUrls);
-  if (stationsPaths.length === 0) {
-    throw new SeedingError('Seeding data has to include stations');
+  const stationsPaths = await downloadFiles(seedingYaml.stations);
+  const tripsPaths = await downloadFiles(seedingYaml.trips);
+
+  if (stationsPaths.length === 0 || tripsPaths.length === 0) {
+    throw new SeedingError('Seeding data has to include at least one set of stations and trips');
   }
-  const tripsPaths = await downloadFiles(tripsUrls);
-
+  
   const stationsDataRaw = await readCsvFile(stationsPaths[0]);
   const addedStationIds = await addStations(stationsDataRaw);
 
