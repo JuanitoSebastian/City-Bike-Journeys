@@ -1,5 +1,5 @@
 import path from 'path';
-import { readFileSync } from 'fs';
+import { readFile } from 'fs';
 
 import TripData from '../interfaces/TripData';
 import StringInLanguage from '../interfaces/StringInLanguage';
@@ -22,14 +22,24 @@ import SeedingsService from '../services/seedings';
  * @param filename Path to .csv file
  * @returns Unsanitized array with contents of .csv file
  */
-const readCsvFile = (filename: string): unknown[] => {
+const readCsvFile = (filename: string): Promise<unknown[]> => {
   const records: unknown[] = [];
-  const file = [...new Set(readFileSync(filename).toString().split('\n'))];
-  for (const [index, row] of file.entries()) {
-    if (index === 0) { continue; }
-    records.push(row.split(','));
-  }
-  return records;
+  return new Promise(resolve => {
+    readFile(filename, (error, data) => {
+      if (error) {
+        console.log(error);
+        resolve([]);
+        return;
+      }
+
+      const file = [...new Set(data.toString().split('\n'))];
+      for (const [index, row] of file.entries()) {
+        if (index === 0) { continue; }
+        records.push(row.split(','));
+      }
+      resolve(records);
+    });
+  });
 };
 
 /**
@@ -115,8 +125,6 @@ const createStation = async (stationData: StationData, city: City): Promise<Stat
  * @param validStationIds A list of valid station ids
  */
 const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
-  // TODO: Maybe refactor this to clearer code?
-  console.log(`TripsDataRaw count: ${tripsDataRaw.length}`);
   const tripsData: TripData[] = tripsDataRaw
     .flatMap((rawData) => {
       try {
@@ -126,12 +134,9 @@ const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
       }
     })
     .filter(tripData => validateTrip(tripData, validStationIds));
-  console.log(`Parsed ${tripsData.length} trips from .csv, inserting to db...`);
-  console.log(`Trips Data count: ${tripsData.length}`);
-  const tripsSet = [... new Set(tripsData)];
 
   try {
-    await Trip.bulkCreate(tripsSet.map((tripData) => {
+    await Trip.bulkCreate(tripsData.map((tripData) => {
       return {
         startTime: tripData.startTime,
         endTime: tripData.endTime,
@@ -144,9 +149,6 @@ const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
   } catch (error) {
     console.log(error);
   }
-  const count = await Trip.count();
-  console.log(`Number of trips in DB ${count}`);
-  console.log('Insertion to db done');
 };
 
 /**
@@ -159,7 +161,7 @@ const addTrips = async (tripsDataRaw: unknown[], validStationIds: string[]) => {
 export const seedDb = async () => {
   const seeding = await SeedingsService.createNewSeeding();
 
-  const stationsDataRaw = readCsvFile(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
+  const stationsDataRaw = await readCsvFile(path.join(__dirname, '..', '..', 'data', 'stations.csv'));
   const addedStationIds = await addStations(stationsDataRaw);
 
   const tripsPaths = [
@@ -169,7 +171,7 @@ export const seedDb = async () => {
   ];
 
   for (const pathToTrips of tripsPaths) {
-    const rawTripsData = readCsvFile(pathToTrips);
+    const rawTripsData = await readCsvFile(pathToTrips);
     await addTrips(rawTripsData, addedStationIds);
   }
 
