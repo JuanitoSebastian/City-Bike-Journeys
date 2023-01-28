@@ -1,12 +1,17 @@
+<!--
+ @component
+  A view for displaying stations. When the view mounts, stations are fetched using StationsService.
+-->
+
 <script lang="ts">
   import StationsList from './StationsList.svelte';
   import { stations, stationsQueryParameters, stationsPaging } from '../../stores';
-  import StationService from '../../services/stations';
+  import StationsService from '../../services/stations';
   import StationsListSorting from './StationsListSorting.svelte';
   import Paging from '../Paging.svelte';
 
   stationsQueryParameters.subscribe(async updatedParameters => {
-    const [pagingFromApi, stationsFromApi] = await StationService.getStations(updatedParameters);
+    const [pagingFromApi, stationsFromApi] = await StationsService.getStations(updatedParameters);
     stations.set(stationsFromApi);
     stationsPaging.set(pagingFromApi);
   });
