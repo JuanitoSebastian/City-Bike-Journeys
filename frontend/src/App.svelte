@@ -1,3 +1,10 @@
+<!--
+ @component
+  The main view that is displayed. 
+  The state of seeding is determined during onMount. If seeding is not ready,
+  a loding view is displayed. After seeding the full app is displayed.
+-->
+
 <script lang="ts">
   import { onMount } from 'svelte';
   import { Router, Route } from 'svelte-navigator';

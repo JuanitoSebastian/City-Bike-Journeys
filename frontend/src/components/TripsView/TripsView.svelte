@@ -1,3 +1,8 @@
+<!--
+ @component
+  A view for displaying tripss. When the view mounts, trips are fetched using TripsService.
+-->
+
 <script lang="ts">
   import { trips, tripsQueryParameters, tripsPaging } from '../../stores';
   import TripService from '../../services/trips';

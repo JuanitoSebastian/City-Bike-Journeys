@@ -1,3 +1,9 @@
+<!--
+ @component
+  A single row of TripsList. 
+  - trip: Trip object to display
+-->
+
 <script lang="ts">
   import type { Trip } from '../../utils/interfaces';
   export let trip: Trip;

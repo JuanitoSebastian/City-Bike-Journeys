@@ -1,3 +1,8 @@
+<!--
+ @component
+  A component providing Tailwindcss utility classes globally
+-->
+
 <style global>
   @tailwind base;
   @tailwind components;

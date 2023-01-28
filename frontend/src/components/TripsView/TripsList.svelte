@@ -1,3 +1,8 @@
+<!--
+ @component
+  A table displaying current trips in store.
+-->
+
 <script lang="ts">
   import { trips } from '../../stores';
   import TripsListHead from './TripsListHead.svelte';
@@ -5,7 +10,7 @@
 </script>
 
 <div class="bg-white px-4 rounded-lg">
-  {#if $trips !== undefined}
+  {#if $trips}
     <table class="table-fixed w-full">
       <TripsListHead />
       <tbody>
@@ -14,7 +19,5 @@
         {/each}
       </tbody>
     </table>
-  {:else}
-    <p>Loading</p>
   {/if}
 </div>

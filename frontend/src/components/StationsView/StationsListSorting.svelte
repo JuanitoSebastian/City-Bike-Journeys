@@ -1,3 +1,9 @@
+<!--
+ @component
+  A view providing two dropdowns for user to set the sorting of stations. 
+  Values are fetched and saved the store.
+-->
+
 <script lang="ts">
   import type { DropDownOption } from '../../utils/interfaces';
   import {

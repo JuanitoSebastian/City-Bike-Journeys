@@ -1,3 +1,12 @@
+<!--
+ @component
+  A DropDown input.
+    - dropDrownDetails: Id and label for dropdown
+    - options: A list of possible dropdown options
+    - selected: Active selection
+    - onChange: A function that is called with the selected value when it is changed.
+-->
+
 <script lang="ts">
   import type { DropDownDetails, DropDownOption } from '../utils/interfaces';
 

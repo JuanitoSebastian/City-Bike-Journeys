@@ -1,3 +1,7 @@
+<!--
+ @component
+  Table head for TripsList with columns: Departure, Arrival, From, To, Distance, Duration
+-->
 <thead>
   <tr class="text-left h-12 text-gray-500 text-sm uppercase">
     <th class="w-32 font-medium">Departure</th>
