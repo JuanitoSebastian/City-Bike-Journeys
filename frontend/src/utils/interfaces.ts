@@ -64,3 +64,7 @@ export interface StationsQueryParameters extends QueryParameters {
 };
 
 export type TripsQueryParameters = QueryParameters;
+
+export interface Seeding {
+  latestSeeding: string|null;
+};

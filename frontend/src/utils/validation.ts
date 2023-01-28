@@ -1,4 +1,4 @@
-import type { ApiReponse, ApiResponsePagingDetails, PagingDetails, Station, StationStatistics, Trip } from './interfaces';
+import type { ApiReponse, ApiResponsePagingDetails, PagingDetails, Seeding, Station, StationStatistics, Trip } from './interfaces';
 
 const isArray = (array: unknown): array is [] => {
   return Array.isArray(array);
@@ -169,4 +169,18 @@ export const parseTripArray = (tripArray: unknown): Trip[] => {
   }
   
   return tripArray;
+};
+
+const isSeeding = (seeding: unknown): seeding is Seeding => {
+  return typeof seeding === 'object' && seeding !== null &&
+    'latestSeeding' in seeding && (seeding.latestSeeding === null ||
+      isString(seeding.latestSeeding) && isDate(seeding.latestSeeding));
+};
+
+export const parseSeeding = (seeding: unknown): Seeding => {
+  if (!seeding || !isSeeding(seeding)) {
+    throw new Error('Incorrect type, not Seeding');
+  }
+
+  return seeding;
 };
