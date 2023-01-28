@@ -8,7 +8,7 @@
   <div class="p-4 sticky top-0">
     <div class="flex flex-col gap-8">
       <Link to="/">
-        <h1 class="text-2xl font-bold text-gray-700">City Bikes 2021</h1>
+        <h1 class="text-2xl font-bold text-gray-700">City Bike Journeys</h1>
       </Link>
       <SideBarSection sectionTitle="Explore">
         <SideBarButton label="Trips" to="trips" iconType="bolt" />
