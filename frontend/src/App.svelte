@@ -9,6 +9,7 @@
   import TripsView from './components/TripsView/TripsView.svelte';
   import { seeding } from './stores';
   import SeedingView from './components/SeedingView/SeedingView.svelte';
+  import Redirect from './components/Redirect.svelte';
 
   onMount(async () => {
     await SeedingsService.startPollingSeedingApi();
@@ -47,9 +48,7 @@
         </div>
       </Route>
       <Route path="/">
-        <div class="container mx-auto my-4 px-4">
-          <p>Home</p>
-        </div>
+        <Redirect route="/stations" />
       </Route>
     </div>
   {/if}
