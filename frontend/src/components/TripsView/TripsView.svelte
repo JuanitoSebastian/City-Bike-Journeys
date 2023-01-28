@@ -3,7 +3,6 @@
   import TripService from '../../services/trips';
   import TripsList from './TripsList.svelte';
   import Paging from '../Paging.svelte';
-  import Icon from '../Icon.svelte';
   import { DEFAULT_PAGING_ITEMS_LIMIT } from '../../utils/constants';
 
   let loading: boolean = false;
