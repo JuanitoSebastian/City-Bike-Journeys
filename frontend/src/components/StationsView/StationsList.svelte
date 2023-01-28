@@ -6,7 +6,7 @@
 <script lang="ts">
   import { stations } from '../../stores';
   import StationListRow from './StationsListRow.svelte';
-  import StationListHead from './StationListHead.svelte';
+  import StationListHead from './StationsListHead.svelte';
 </script>
 
 <div class="bg-white rounded-lg overflow-hidden">

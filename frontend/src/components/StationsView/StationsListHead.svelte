@@ -1,3 +1,8 @@
+<!--
+ @component
+  Table head for StationsList with columns: Id, Name, City, Capacity and an empty column.
+-->
+
 <thead>
   <tr class="text-left h-12 text-gray-500 text-sm uppercase">
     <th class="w-16 px-4 font-medium">Id</th>
