@@ -10,6 +10,7 @@
   import { seeding } from './stores';
   import SeedingView from './components/SeedingView/SeedingView.svelte';
   import Redirect from './components/Redirect.svelte';
+  import AboutView from './components/AboutView/AboutView.svelte';
 
   onMount(async () => {
     await SeedingsService.startPollingSeedingApi();
@@ -44,7 +45,7 @@
       </Route>
       <Route path="/about">
         <div class="container mx-auto my-4 px-4">
-          <p>App by juan.fi</p>
+          <AboutView />
         </div>
       </Route>
       <Route path="/">
