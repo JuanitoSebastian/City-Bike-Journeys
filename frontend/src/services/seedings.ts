@@ -3,6 +3,7 @@ import { seeding } from '../stores';
 import { get } from 'svelte/store';
 import type { Seeding } from '../utils/interfaces';
 import { parseApiResponse, parseSeeding } from '../utils/validation';
+import { DEFAULT_POLLING_INTERVAL_MILLISECONDS } from '../utils/constants';
 
 const baseUrl = `${process.env.API_URL}/seeding`;
 
@@ -59,7 +60,7 @@ const startPollingSeedingApi = async () => {
   if (polling) {
     clearInterval(polling);
   }
-  polling = setInterval(poll, 5000);
+  polling = setInterval(poll, DEFAULT_POLLING_INTERVAL_MILLISECONDS);
 };
 
 export default {
