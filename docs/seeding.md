@@ -1,5 +1,5 @@
 # Seeding the database
-When the application is launched for the first time, the database needs to be seeded. The backend seeds the database using data from .csv files. The .csv files for seeding can be specified in the seeding.yml file.
+When the application is launched for the first time, the database needs to be seeded. The backend seeds the database using data from .csv files. The .csv files for seeding can be specified in the seeding.yml file. The files are downloaded to the `/backend/data` directory and the files are deleted after seeding is complete. A cold start with the default seeding.yml takes around 4 minutes (on my machine at least).
 
 `/backend/seeding.yml`:
 ```
@@ -14,6 +14,8 @@ The .yml file can be edited, but keep in mind that to seed the database:
 - there has to be at least one .csv file of stations and trips
 - trips that start or end on unknown stations will be disregarded
 
+When a browser opens the frontend, it will send a request to the backend's seeding endpoint. If the database is not seeded, the frontend will display a loading view and start polling the seeding endpoint. When info of a successful seeding is returned, the frontend lets the user access the full application.
+
 # Structure of .csv files
 ## Stations
 The structure of .csv files including stations should be:
@@ -25,7 +27,7 @@ A valid example:
 9,517,Länsituuli,Västanvinden,Länsituuli,Länsituulenkuja 3,Västanvindsgränden 3,Espoo,Esbo,CityBike Finland,24,24.802049,60.175358
 ```
 
-If the Kaupunki and Stad is left empty in the .csv file it defaults to Helsinki.
+If the Kaupunki and Stad are left empty in the .csv file it defaults to Helsinki.
 
 ## Stations
 The structure of .csv files including trips should be:
