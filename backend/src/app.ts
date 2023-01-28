@@ -11,9 +11,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/trip', tripsRouter);
-app.use('/api/station', stationsRouter);
-app.use('/api/seeding', seedingsRouter);
+app.use('/trip', tripsRouter);
+app.use('/station', stationsRouter);
+app.use('/seeding', seedingsRouter);
 app.use(middleware.unknownEndPoint);
 app.use(middleware.errorHandler);
 
