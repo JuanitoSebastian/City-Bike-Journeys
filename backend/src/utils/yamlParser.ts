@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { parseSeedingYamlObject } from '../validation/seeding';
 import YAML from 'yaml';
 import SeedingYaml from '../interfaces/SeedingYaml';
-import SeedingError from '../errors/seedingError';
+import SeedingError from '../errors/SeedingError';
 
 /**
  * Parses seeding.yml file to SeedingYaml object

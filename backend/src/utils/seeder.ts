@@ -7,7 +7,7 @@ import StationData from '../interfaces/StationData';
 import { parseStationDataFromCsv, parseTripDataFormCsv, validateTrip } from '../validation/seeding';
 import { DEFAULT_DIRECTORY_FOR_SEEDING_DATA, DEFAULT_PATH_TO_SEEDING_YAML } from './constants';
 import SeedingsService from '../services/seedings';
-import SeedingError from '../errors/seedingError';
+import SeedingError from '../errors/SeedingError';
 
 import City from '../models/City';
 import CityName from '../models/CityName';
