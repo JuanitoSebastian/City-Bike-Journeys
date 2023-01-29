@@ -17,22 +17,34 @@ services:
     container_name: reverse-proxy
     depends_on:
       - frontend
+      - backend
 
   backend:
     build: ./backend
     environment:
       - PORT=3000
       - POSTGRES_URI=postgresql://db
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PW=example
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PW=${POSTGRES_PW}
     container_name: city-bike-journeys-backend
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   
+  # The healthcheck makes sure that the DB actually is ready for accepting connecitons.
+  # This is because backend is dependant on it and the depends_on section on its own
+  # only checks that it has launched the container.
   db:
     image: postgres:14.6-alpine
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     environment:
-      POSTGRES_PASSWORD: example
+      - POSTGRES_PASSWORD=${POSTGRES_PW}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
     container_name: city-bike-journeys-db
