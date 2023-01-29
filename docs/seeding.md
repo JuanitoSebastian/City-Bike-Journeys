@@ -1,7 +1,7 @@
 # Seeding the database
 When the application is launched for the first time, the database needs to be seeded. The backend seeds the database using data from .csv files. The .csv files for seeding can be specified in the seeding.yml file. The files are downloaded to the `/backend/data` directory and the files are deleted after seeding is complete. A cold start with the default seeding.yml takes around 4 minutes (on my machine at least).
 
-`/backend/seeding.yml`:
+[`/backend/seeding.yml`](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/backend/seeding.yml):
 ```
 stations:
  - https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv
