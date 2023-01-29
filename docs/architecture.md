@@ -1,3 +1,7 @@
 # Architecture
 ![Architecture diagram of City Bike Journeys app](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/images/architecture_diagram.png?raw=true)
 City Bike Journeys is a full stack web application built using Typescript. The business logic of the application lives in the back end. On the first start of the application, the back end parses station and bike trip data from .csv files and [seeds](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/seeding.md) it to a PostgreSQL database. The back end offers an [API](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/api.md) with endpoints for stations, trips and the state of seeding of the database. The front end uses the endpoints to fetch data about trips and bike stations.
+
+# PostgreSQL database
+![Diagram of City Bike Journeys Database](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/images/db_diagram.png?raw=true)
+I wanted to create a database that would be flexible and easy to expand and develop in the future. That's why I wanted to split CityNames, StationNames and StationAddresses into separate tables. This way it is easy to add new language options to the app. 
