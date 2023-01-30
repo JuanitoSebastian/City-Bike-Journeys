@@ -17,6 +17,6 @@ City Bike Journeys is written using Typescript. The back end is an Express appli
 1. Clone the repository
 2. Create an .env file in the root of the repository with the [following structure](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/.env.example)
 3. Open terminal at the root of the repository and run `docker compose up`
-4. The application launches at `localhost:8080`
+4. The application launches at `localhost:80`
 
 Please note that when starting the app for the first time, the seeding of the database may take a few minutes. More information about seeding found [here](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/seeding.md).
