@@ -172,8 +172,9 @@ const downloadFiles = async (urlsToFiles: string[]): Promise<string[]> => {
       if (downloadReport.downloadStatus === 'COMPLETE' && downloadReport.filePath) {
         pathsToFiles.push(downloadReport.filePath);
       }
-    } catch {
+    } catch(error) {
       console.log(`Error downloading file ${urlToFile}`);
+      console.log(error);
     }
   }
   return pathsToFiles;
