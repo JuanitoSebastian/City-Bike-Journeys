@@ -98,6 +98,18 @@ describe('City Bike Journeys', () => {
       });
     });
 
+    describe('Trips view', () => {
+      it('Trips sorted by start time from oldest to newest', () => {
+        cy.visit('http://localhost:8080/trips');
+        cy.get('table > tbody > tr:nth-child(1) > td:nth-child(1)').contains('23.53 31.5.2021');
+        cy.get('table > tbody > tr:nth-child(2) > td:nth-child(1)').contains('23.57 31.5.2021');
+        cy.get('table > tbody > tr:nth-child(3) > td:nth-child(1)').contains('23.59 30.6.2021');
+        cy.get('table > tbody > tr:nth-child(4) > td:nth-child(1)').contains('23.59 31.7.2021');
+        cy.get('table > tbody > tr:nth-child(5) > td:nth-child(1)').contains('23.59 31.7.2021');
+        
+      });
+    });
+
   });
 
 });
