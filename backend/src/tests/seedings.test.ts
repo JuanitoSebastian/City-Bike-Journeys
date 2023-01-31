@@ -16,13 +16,13 @@ describe('Seedings endpoint', () => {
   let seeding: Seeding | null;
 
   test('latestSeeding is null when Seedings table is empty', async () => {
-    const response = await api.get('/api/seeding');
+    const response = await api.get('/seeding');
     expect(response.body.data.latestSeeding).toBeNull();
   });
 
   test('latestSeeding is null when Seedings table has entry with finished null', async () => {
     seeding = await SeedingsService.createNewSeeding();
-    const response = await api.get('/api/seeding');
+    const response = await api.get('/seeding');
     expect(response.body.data.latestSeeding).toBeNull();
   });
 
@@ -31,7 +31,7 @@ describe('Seedings endpoint', () => {
       seeding.finished = new Date();
       await seeding.save();
 
-      const response = await api.get('/api/seeding');
+      const response = await api.get('/seeding');
       expect(response.body.data.latestSeeding).not.toBeNull();
       expect(new Date(response.body.data.latestSeeding)).toEqual(seeding.finished);
     }

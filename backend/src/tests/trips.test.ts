@@ -15,12 +15,12 @@ beforeAll(async () => {
 
 describe('Trip endpoint', () => {
   test('All trips are returned', async () => {
-    const reponse = await api.get('/api/trip');
+    const reponse = await api.get('/trip');
     expect(reponse.body.data).toHaveLength(5);
   });
 
   test('Trips are sorted by start time', async () => {
-    const response = await api.get('/api/trip');
+    const response = await api.get('/trip');
     expect(response.body.data[0].startStation).toEqual('Karhupuisto');
     expect(response.body.data[0].distanceMeters).toEqual(5366);
     expect(response.body.data[1].startStation).toEqual('Karhupuisto');
@@ -34,17 +34,17 @@ describe('Trip endpoint', () => {
   });
 
   test('Language set to fi returns in finnish', async () => {
-    const response = await api.get('/api/trip?language=fi');
+    const response = await api.get('/trip?language=fi');
     expect(response.body.data[2].startStation).toEqual('Kaivopuisto');
   });
 
   test('Language set to sv returns in swedish', async () => {
-    const response = await api.get('/api/trip?language=sv');
+    const response = await api.get('/trip?language=sv');
     expect(response.body.data[2].startStation).toEqual('Brunnsparken');
   });
 
   test('Limit set to 2 returns 2 trips', async () => {
-    const response = await api.get('/api/trip?limit=2');
+    const response = await api.get('/trip?limit=2');
     expect(response.body.data).toHaveLength(2);
     expect(response.body.data[0].startStation).toEqual('Karhupuisto');
     expect(response.body.data[0].distanceMeters).toEqual(5366);
@@ -53,7 +53,7 @@ describe('Trip endpoint', () => {
   });
 
   test('Ofset set to 2 offsets the returned trips by 2', async () => {
-    const response = await api.get('/api/trip?offset=2');
+    const response = await api.get('/trip?offset=2');
     expect(response.body.data).toHaveLength(3);
     expect(response.body.data[0].startStation).toEqual('Kaivopark');
     expect(response.body.data[0].distanceMeters).toEqual(4010);
