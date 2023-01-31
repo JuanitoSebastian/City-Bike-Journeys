@@ -2,9 +2,6 @@ import { sequelize } from '../services/db';
 import supertest from 'supertest';
 import TestHelper from './helper';
 import app from '../app';
-import Station from '../models/Station';
-import Trip from '../models/Trip';
-import City from '../models/City';
 
 const api = supertest(app);
 
@@ -162,8 +159,6 @@ describe('Stations endpoint', () => {
 });
 
 afterAll(async () => {
-  await Station.destroy({ truncate: true, cascade: true });
-  await City.destroy({ truncate: true, cascade: true });
-  await Trip.destroy({ truncate: true, cascade: true });
+  await TestHelper.clearDatabaseTables();
   await sequelize.close();
 });

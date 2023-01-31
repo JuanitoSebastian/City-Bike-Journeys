@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import app from '../app';
 import Seeding from '../models/Seeding';
 import SeedingsService from '../services/seedings';
+import TestHelper from './helper';
 
 const api = supertest(app);
 
@@ -39,6 +40,6 @@ describe('Seedings endpoint', () => {
 });
 
 afterAll(async () => {
-  await Seeding.destroy({ truncate: true, cascade: true });
+  await TestHelper.clearDatabaseTables();
   await sequelize.close();
 });
