@@ -14,13 +14,14 @@
   import DropDown from '../DropDown.svelte';
 
   const setOrder = (value: DropDownOption) => {
-    stationsQueryParameters.set({ ...$stationsQueryParameters, order: value });
+    stationsQueryParameters.set({ ...$stationsQueryParameters, order: value, offset: 0 });
   };
 
   const setOrderBy = (value: DropDownOption) => {
     stationsQueryParameters.set({
       ...$stationsQueryParameters,
       orderBy: value,
+      offset: 0
     });
   };
 </script>
