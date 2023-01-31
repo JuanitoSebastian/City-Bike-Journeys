@@ -24,3 +24,15 @@ export const formatMeters = (metersToFromat: number): string => {
 
   return `${Math.round(metersToFromat)} m`;
 };
+
+/**
+ * Takes in a number in seconds and returns it formatted to minutes.
+ * @param secondsToFormat: the number to format
+ * @returns a tuple with [minutes, seconds]
+ */
+export const formatSecondsToMinutes = (secondsToFormat: number): [number, number] => {
+  const minutes = Math.floor(secondsToFormat / 60);
+  const seconds = secondsToFormat - (minutes * 60);
+
+  return [minutes, seconds];
+};

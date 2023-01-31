@@ -14,7 +14,7 @@
   $: startDate = new Date(trip.startTime);
   $: endDate = new Date(trip.endTime);
   $: distanceFormatted = formatMeters(trip.distanceMeters);
-  $: durationFormatted = formatSecondsToMinutes(trip.durationSeconds);
+  $: [durationMinutes, durationSeconds] = formatSecondsToMinutes(trip.durationSeconds);
   const optionsTime = { timeStyle: 'short' };
   const optionsDate = { year: 'numeric', month: 'numeric', day: 'numeric' };
 </script>
@@ -41,8 +41,8 @@
   <td>{distanceFormatted}</td>
   <td>
     <div class="flex flex-col justify-center items-start text-sm">
-      <p>{durationFormatted[0]} minutes</p>
-      <p>{durationFormatted[1]} seconds</p>
+      <p>{durationMinutes} minutes</p>
+      <p>{durationSeconds} seconds</p>
     </div>
   </td>
 </tr>
