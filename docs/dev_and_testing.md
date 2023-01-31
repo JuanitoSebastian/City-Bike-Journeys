@@ -1,4 +1,4 @@
-# Running a development build locally
+# Running a development
 The development environment of the application is not yet containerized and it requires a few steps to get started. Make sure you have docker and docker-compose installed since the database is run inside a container.
 
 1. Clone the repository `git clone https://github.com/JuanitoSebastian/City-Bike-Journeys.git`
@@ -35,8 +35,7 @@ API_URL=http://localhost:3000
 8. In the same terminal run `npm run dev` in the `/frontend` directory.
 9. The back end should now be running on `localhost:3000` and the front end on `localhost:8080`.
 
-# Testing the app locally
-## Back end unit & integration tests
+# Testing the app
 Make sure you have docker and docker-compose installed since the database is run inside a container.
 
 1. Clone the repository `git clone https://github.com/JuanitoSebastian/City-Bike-Journeys.git`
@@ -45,7 +44,7 @@ Make sure you have docker and docker-compose installed since the database is run
 
 `/backend/.env.test:`
 ```
-POSTGRES_URI=postgresql://localhost:8000
+POSTGRES_URI=postgresql://localhost:8001
 POSTGRES_DB=postgres
 POSTGRES_USER=postgres
 POSTGRES_PW=example
@@ -59,5 +58,15 @@ PORT=3000
 
 Make sure the details in the `.env.test` file match the ones in the `docker-compose.dev.yml` file.
 
+4. Create an `.env` file in the `/frontend` directory with the following structure:
+
+`/frontend/.env`:
+```
+API_URL=http://localhost:3000
+```
+- `API_URL`: Url to the back end service.
+
 5. Open a terminal and run `npm install` in the `/backend` directory.
-6. In the same terminal run `npm run test` in the `/backend` directory.
+6. Run `npm install` in the `/frontend` directory.
+
+A testing environment is now ready. Read more on tests [here](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/testing.md).
