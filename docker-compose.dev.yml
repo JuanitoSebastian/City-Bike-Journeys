@@ -5,7 +5,9 @@ services:
     image: postgres:14.6-alpine
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
     container_name: journey-db
     ports:
       - 8000:5432
@@ -14,7 +16,9 @@ services:
     image: postgres:14.6-alpine
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
     container_name: journey-db-test
     ports:
       - 8001:5432
