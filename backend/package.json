@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "test:e2e": "cross-env NODE_ENV=test  ts-node-dev src/index.ts",
     "tsc": "tsc",
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
     "lint": "eslint --ext .ts .",
