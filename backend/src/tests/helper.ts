@@ -1,9 +1,11 @@
 import City from '../models/City';
 import CityName from '../models/CityName';
+import Seeding from '../models/Seeding';
 import Station from '../models/Station';
 import StationAddress from '../models/StationAddress';
 import StationName from '../models/StationName';
 import Trip from '../models/Trip';
+import { sequelize } from '../services/db';
 
 const seedTestDataToDb = async () => {
   const city = await City.create({
@@ -113,6 +115,26 @@ const seedTestDataToDb = async () => {
   ]);
 };
 
+export const markDatabaseAsSeeded = async () => {
+  await Seeding.create({
+    started: new Date(),
+    finished: new Date()
+  });
+};
+
+const clearDatabaseTables = async () => {
+  await Seeding.destroy({ truncate: true, cascade: true });
+  await Station.destroy({ truncate: true, cascade: true });
+  await StationName.destroy({ truncate: true, cascade: true });
+  await StationAddress.destroy({ truncate: true, cascade: true });
+  await CityName.destroy({ truncate: true, cascade: true });
+  await City.destroy({ truncate: true, cascade: true });
+  await Trip.destroy({ truncate: true, cascade: true });
+  await sequelize.sync();
+};
+
 export default {
-  seedTestDataToDb
+  seedTestDataToDb,
+  markDatabaseAsSeeded,
+  clearDatabaseTables
 };
