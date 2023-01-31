@@ -1,8 +1,10 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
+  extends: ['plugin:cypress/recommended'],
   plugins: [
     'svelte3',
-    '@typescript-eslint'
+    '@typescript-eslint',
+    'cypress'
   ],
   overrides: [
     {

@@ -7,17 +7,21 @@
     "dev": "rollup -c -w",
     "start": "sirv public --single",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "lint": "eslint './src/**/*.{ts,svelte}'"
+    "lint": "eslint './src/**/*.{ts,svelte}'",
+    "cypress:open": "cypress open"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^2.0.0",
+    "@types/jest": "^29.4.0",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "autoprefixer": "^10.4.13",
+    "cypress": "^12.4.1",
     "eslint": "^8.32.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-svelte3": "^4.0.0",
     "postcss": "^8.4.21",
     "rollup": "^2.3.4",
