@@ -2,7 +2,7 @@
 The application features unit and integration tests in the back end. There are also end-to-end tests that can be run with cypress.
 
 ## Unit and integration testing of the back end
-These tests can be found in the [`/backend/src/tests`](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/dev_and_testing.md) directory. Testing includes:
+These tests can be found in the [`/backend/src/tests`](https://github.com/JuanitoSebastian/City-Bike-Journeys/tree/main/backend/src/tests) directory. Testing includes:
 - Checking data is validated correctly
 - Checking that data from .csv files is saved correctly to the database
 - Checking that the endpoints of the API return information as expected and in the correct format.
@@ -10,7 +10,7 @@ These tests can be found in the [`/backend/src/tests`](https://github.com/Juanit
 ![Screenshot of testing report](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/images/backend_tests.png?raw=true)
 
 ### Running the tests
-1. Start by setting up a [testing environment](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/testing.md).
+1. Start by setting up a [testing environment](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/dev_and_testing.md).
 2. Open a terminal and run `npm run test` in the `/backend` directory.
 
 ## End-to-end testing of the application
