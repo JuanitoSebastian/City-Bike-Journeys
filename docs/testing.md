@@ -25,4 +25,3 @@ These tests can be found in the [`/frontend/cypress/e2e`](https://github.com/Jua
 4. Open a new terminal and run `npm run cypress:open` in the `/frontend` directory
 5. Once cypress opens, select E2E Testing and select you preferred browser
 6. A browser window should open. From there you can run the tests by selecting the `city_bike_journeys_app.cy.ts` file.
-
