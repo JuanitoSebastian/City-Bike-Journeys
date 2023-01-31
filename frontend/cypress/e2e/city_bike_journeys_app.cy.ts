@@ -59,7 +59,45 @@ describe('City Bike Journeys', () => {
         });
       });
     });
-    
+
+    describe('Single station view', () => {
+      it('Station id, name, address and city is displayed on page', () => {
+        cy.visit('http://localhost:8080/stations/001');
+        cy.contains('001 Kaivopark');
+        cy.contains('Meritori 1, Helsinki');
+      });
+
+      it('Station statistics shown without filtering on default', () => {
+        cy.visit('http://localhost:8080/stations/001');
+        cy.get('#station-capacity').contains('30 bikes');
+        cy.get('#station-departures-count').contains('2');
+        cy.get('#station-arrivals-count').contains('1');
+        cy.get('#station-departures-avg-distance').contains('2.85 km');
+        cy.get('#station-arrivals-avg-distance').contains('2.04 km');
+      });
+
+      it('Setting dates filters statistics', () => {
+        cy.visit('http://localhost:8080/stations/001');
+        cy.get('#start').type('2021-06-30T00:00');
+        cy.get('#end').type('2021-07-08T00:00');
+        cy.get('#station-capacity').contains('30 bikes');
+        cy.get('#station-departures-count').contains('1');
+        cy.get('#station-arrivals-count').contains('0');
+        cy.get('#station-departures-avg-distance').contains('4.01 km');
+      });
+
+      it('Setting invalid datetimerange does not affect statistics', () => {
+        cy.visit('http://localhost:8080/stations/001');
+        cy.get('#start').type('2021-06-30T00:00');
+        cy.get('#end').type('2021-06-08T00:00');
+        cy.get('#station-capacity').contains('30 bikes');
+        cy.get('#station-departures-count').contains('2');
+        cy.get('#station-arrivals-count').contains('1');
+        cy.get('#station-departures-avg-distance').contains('2.85 km');
+        cy.get('#station-arrivals-avg-distance').contains('2.04 km');
+      });
+    });
+
   });
 
 });
