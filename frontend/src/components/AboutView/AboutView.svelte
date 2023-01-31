@@ -9,13 +9,13 @@
     <h2 class="text-4xl">
       Hey, I'm <a
         href="https://juan.fi"
-        class="text-blue-600 font-medium"
+        class="text-blue-600 font-medium hover:text-blue-500"
         target="_blank"
         rel="noreferrer">Juan</a
       > 👋
     </h2>
     <p class="text-center">
-      I'm an aspiring software developer with a backround in project management.
+      I'm an aspiring software developer with a background in project management and event production.
     </p>
     <img
       src="https://raw.githubusercontent.com/JuanitoSebastian/JuanitoSebastian.github.io/main/public/images/juanito.png"
@@ -25,7 +25,11 @@
 
     <p class="text-center">
       I created this app as a submission for the Solita Dev Academy 2023
-      exercise.
+      exercise. Read more about the app <a
+        href="https://github.com/JuanitoSebastian/City-Bike-Journeys"
+        class="text-blue-600 font-medium hover:text-blue-500"
+        target="_blank"
+        rel="noreferrer">here</a>.
     </p>
   </div>
 </div>
