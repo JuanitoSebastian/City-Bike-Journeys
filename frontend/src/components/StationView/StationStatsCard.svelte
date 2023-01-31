@@ -8,9 +8,10 @@
 <script lang="ts">
   export let statistic: string;
   export let label: string;
+  export let id: string;
 </script>
 
-<div class="bg-white rounded-lg flex flex-col justify-center items-start gap-1 h-24 max-h-24 w-40 min-w-fit px-4 shadow-sm">
+<div id={id} class="bg-white rounded-lg flex flex-col justify-center items-start gap-1 h-24 max-h-24 w-40 min-w-fit px-4 shadow-sm">
   <p class="text-gray-600 font-light">{label}</p>
   <p class="text-3xl font-bold">{statistic}</p>
 </div>
