@@ -1,6 +1,7 @@
 # Completed features
 ### Data validation
 - Import data from .csv files and validate ✔️
+  - Data used for seeding can be changed easily because of `seeding.yml`
   - See [seeding](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/seeding.md)
 
 ### Trips view

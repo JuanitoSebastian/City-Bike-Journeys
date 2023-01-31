@@ -7,6 +7,7 @@ City Bike Journeys is written using Typescript. The back end is an Express appli
 
 ## Documentation & links
 [🌎 Deployment on AWS EC2](http://journeys.juan.fi)\
+[✅ Completed Features](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/features.md)\
 [🏛 Architecture](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/architecture.md)\
 [🌱 Seeding](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/seeding.md)\
 [📡 API](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/api.md)\
