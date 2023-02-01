@@ -34,4 +34,4 @@
 - Creation of Ci/Cd pipeline using GitHub Actions
   - On push to dev: Lint => Unit & Integration Tests => E2E Tests
   - On merge to main: Deployment to AWS EC2
-- Implement changing language to front end
+Implement changing the language to front end
