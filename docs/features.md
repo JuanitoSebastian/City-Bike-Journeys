@@ -27,3 +27,11 @@
 - Endpoints feature parameter for setting preferred language ✔️
   - Changing the language can be implemented in the front end in the future
   - See [API](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/api.md)
+
+## Future improvements
+- Sorting in Trips view
+- Eliminate duplicate code from e2e tests
+- Creation of Ci/Cd pipeline using GitHub Actions
+  - On push to dev: Lint => Unit & Integration Tests => E2E Tests
+  - On merge to main: Deployment to AWS EC2
+- Implement changing language to front end
