@@ -5,3 +5,5 @@ City Bike Journeys is a full stack web application built using Typescript. The b
 # PostgreSQL database
 ![Diagram of City Bike Journeys Database](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/images/db_diagram_fix.png?raw=true)
 I wanted to create a database that would be flexible and easy to develop in the future. That's why I divided CityNames, StationNames and StationAddresses into separate tables. This way it is easy to add new languages in the future. Because of this, it was also easy to create API endpoints where the desired language was given as a parameter to the request.
+
+The database is accessed using Sequelize, an ORM tool for Typescript. The models are defined in [`/backend/src/models`](https://github.com/JuanitoSebastian/City-Bike-Journeys/tree/main/backend/src/models) and Sequelize uses these files to automatically create and maintain the necessary database tables.
