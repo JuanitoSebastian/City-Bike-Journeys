@@ -30,7 +30,8 @@ Please note that when starting the app for the first time, the seeding of the da
 [🌱 Seeding](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/seeding.md)\
 [📡 API](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/api.md)\
 [🧑‍💻 Running Local Dev & Testing Environment](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/dev_and_testing.md)\
-[🧪 Testing](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/testing.md)\
+[🧪 Testing](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/docs/testing.md)
+
 **Links**\
 [🌎 Deployment on AWS EC2](http://journeys.juan.fi)\
 [💅 Initial Figma Designs](https://www.figma.com/file/TiDksTjWUzM8KkQDLLZt5Z/Page?node-id=0%3A1&t=xjSsGOedzQp3IOEv-1)

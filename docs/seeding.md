@@ -16,6 +16,14 @@ The .yml file can be edited, but keep in mind that to seed the database:
 
 When a browser opens the frontend, it will send a request to the backend's seeding endpoint. If the database is not seeded, the frontend will display a loading view and start polling the seeding endpoint. When info of a successful seeding is returned, the frontend lets the user access the full application.
 
+## Validation
+The data of .csv files are validated at import. The validation rules are:
+- A bike trip has to be longer than 10 meters
+- A bike trip has to have lasted longer than 10 seconds
+- A bike trip has to start and end at a known station (station id in db)
+
+The constants for validation are defined in [`/backend/src/utils/constants.ts`](https://github.com/JuanitoSebastian/City-Bike-Journeys/blob/main/backend/src/utils/constants.ts)
+
 # Structure of .csv files
 ## Stations
 The structure of .csv files including stations should be:
@@ -38,4 +46,3 @@ A valid example:
 ```
 2021-06-30T23:59:02,2021-07-01T00:04:05,280,Puotilan ostoskeskus,278,Puotilantie,855,302
 ```
-
