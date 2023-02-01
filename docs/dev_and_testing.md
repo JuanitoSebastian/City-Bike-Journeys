@@ -1,4 +1,4 @@
-# Running a development
+# Running a development build
 The development environment of the application is not yet containerized and it requires a few steps to get started. Make sure you have docker and docker-compose installed since the database is run inside a container.
 
 1. Clone the repository `git clone https://github.com/JuanitoSebastian/City-Bike-Journeys.git`
